@@ -12,7 +12,7 @@ import (
 func TestFibonacci(t *testing.T) {
 	tests := []struct {
 		wantCount int
-		want      []int
+		wantSlice []int
 	}{
 		{
 			0,
@@ -36,8 +36,8 @@ func TestFibonacci(t *testing.T) {
 			fiboIter := fibonacci.Fibonacci(tt.wantCount)
 			got := slices.Collect(fiboIter)
 
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Fibonacci() = %v, want %v", got, tt.want)
+			if !reflect.DeepEqual(got, tt.wantSlice) {
+				t.Errorf("Fibonacci() = %v, want %v", got, tt.wantSlice)
 			}
 		})
 	}
