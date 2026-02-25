@@ -1,3 +1,4 @@
+// Package fibonacci implements Fibonacci sequence generation logic.
 package fibonacci
 
 import "iter"
