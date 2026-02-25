@@ -9,10 +9,12 @@ import (
 func main() {
 	desiredCount := 10
 
-	for idx, fibVal := range fibonacci.Fibonacci() {
+	idx := 0
+	for fibVal := range fibonacci.Fibonacci() {
 		if idx >= desiredCount {
 			break
 		}
 		fmt.Println(idx, fibVal)
+		idx++
 	}
 }
