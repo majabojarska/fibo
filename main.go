@@ -2,30 +2,14 @@ package main
 
 import (
 	"fmt"
-	"iter"
+
+	"github.com/majabojarska/fibo/internal/fibonacci"
 )
-
-// fibonacci returns an iter.Seq2[int, int], which generates
-// an infinite Fibonacci sequence, starting at 0.
-func fibonacci() iter.Seq2[int, int] {
-	return func(yield func(int, int) bool) {
-		idx := 0
-		left, right := 0, 1
-
-		for {
-			if !yield(idx, left) {
-				return
-			}
-			idx++
-			left, right = right, left+right
-		}
-	}
-}
 
 func main() {
 	desiredCount := 10
 
-	for idx, fibVal := range fibonacci() {
+	for idx, fibVal := range fibonacci.Fibonacci() {
 		if idx >= desiredCount {
 			break
 		}
