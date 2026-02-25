@@ -7,14 +7,7 @@ import (
 )
 
 func main() {
-	desiredCount := 10
-
-	idx := 0
-	for fibVal := range fibonacci.Fibonacci() {
-		if idx >= desiredCount {
-			break
-		}
-		fmt.Println(idx, fibVal)
-		idx++
+	for fibVal := range fibonacci.Fibonacci(10) {
+		fmt.Println(fibVal)
 	}
 }

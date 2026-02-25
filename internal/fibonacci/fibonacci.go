@@ -3,16 +3,18 @@ package fibonacci
 import "iter"
 
 // Fibonacci returns an iter.Seq[int], which generates
-// an infinite Fibonacci sequence, starting at 0.
-func Fibonacci() iter.Seq[int] {
+// a finite Fibonacci sequence, starting at 0.
+func Fibonacci(count int) iter.Seq[int] {
 	return func(yield func(int) bool) {
+		returnCount := 0
 		left, right := 0, 1
 
 		for {
-			if !yield(left) {
+			if returnCount >= count || !yield(left) {
 				return
 			}
 			left, right = right, left+right
+			returnCount++
 		}
 	}
 }
