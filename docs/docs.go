@@ -11,7 +11,8 @@ const docTemplate = `{
         "title": "{{.Title}}",
         "contact": {
             "name": "Maja Bojarska",
-            "url": "https://github.com/majabojarska/fibo/issues/new"
+            "url": "https://github.com/majabojarska/fibo",
+            "email": "majabojarska98@gmail.com"
         },
         "license": {
             "name": "MIT License",
@@ -21,7 +22,56 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/fibonacci/{count}": {
+            "get": {
+                "description": "Generates a finite length Fibonacci sequence",
+                "tags": [
+                    "fibonacci"
+                ],
+                "summary": "Get Fibonacci sequence",
+                "operationId": "get-fibonacci",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Desired sequence size",
+                        "name": "count",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
@@ -30,8 +80,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "Fibonacci API",
-	Description:      "This is a streaming Fibonacci API",
+	Title:            "Fibo",
+	Description:      "Fibonacci sequence REST API",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -11,6 +11,20 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+//	@title		Fibo
+//	@version		1.0
+//	@description Fibonacci sequence REST API
+
+//	@contact.name	Maja Bojarska
+//	@contact.url	https://github.com/majabojarska/fibo
+//	@contact.email	majabojarska98@gmail.com
+
+//	@license.name	MIT License
+//	@license.url	https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme
+
+//	@host		localhost:8080
+//	@BasePath	/api/v1
+
 const httpPortDefault = 8080
 
 func main() {

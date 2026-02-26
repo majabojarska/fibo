@@ -2,13 +2,46 @@ basePath: /api/v1
 host: localhost:8080
 info:
   contact:
+    email: majabojarska98@gmail.com
     name: Maja Bojarska
-    url: https://github.com/majabojarska/fibo/issues/new
-  description: This is a streaming Fibonacci API
+    url: https://github.com/majabojarska/fibo
+  description: Fibonacci sequence REST API
   license:
     name: MIT License
     url: https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme
-  title: Fibonacci API
+  title: Fibo
   version: "1.0"
-paths: {}
+paths:
+  /fibonacci/{count}:
+    get:
+      description: Generates a finite length Fibonacci sequence
+      operationId: get-fibonacci
+      parameters:
+      - description: Desired sequence size
+        in: path
+        name: count
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: integer
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get Fibonacci sequence
+      tags:
+      - fibonacci
 swagger: "2.0"

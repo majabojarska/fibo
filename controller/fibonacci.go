@@ -16,10 +16,10 @@ import (
 //	@ID				get-fibonacci
 //	@Tags			fibonacci
 //	@Param			count	path		int		true	"Desired sequence size"
-//	@Success		200		{object}	{array}	int
-//	@Failure		400		{object}	httputil.HTTPError
-//	@Failure		404		{object}	httputil.HTTPError
-//	@Failure		500		{object}	httputil.HTTPError
+//	@Success		200			{array}	int
+//	@Failure		400		{object}	string
+//	@Failure		404		{object}	string
+//	@Failure		500		{object}	string
 //	@Router			/fibonacci/{count} [get]
 func (c *Controller) GetFibonacci(ctx *gin.Context) {
 	writer := ctx.Writer
