@@ -11,9 +11,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-//	@title		Fibo
+//	@title			Fibo
 //	@version		1.0
-//	@description Fibonacci sequence REST API
+//	@description	Fibonacci sequence REST API
 
 //	@contact.name	Maja Bojarska
 //	@contact.url	https://github.com/majabojarska/fibo

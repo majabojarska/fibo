@@ -15,8 +15,8 @@ import (
 //	@Description	Generates a finite length Fibonacci sequence
 //	@ID				get-fibonacci
 //	@Tags			fibonacci
-//	@Param			count	path		int		true	"Desired sequence size"
-//	@Success		200			{array}	int
+//	@Param			count	path		int	true	"Desired sequence size"
+//	@Success		200		{array}		int
 //	@Failure		400		{object}	string
 //	@Failure		404		{object}	string
 //	@Failure		500		{object}	string
