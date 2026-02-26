@@ -1,0 +1,62 @@
+name-template: "Draft"
+tag-template: "draft"
+
+autolabeler:
+  - label: "ci"
+    files:
+      - ".github/*"
+    branch:
+      - '/ci\/.+/'
+    title:
+      - '/ci\/.+/'
+
+  - label: "documentation"
+    files:
+      - "README.md"
+      - "LICENSE"
+    branch:
+      - '/docs\/.+/'
+    title:
+      - "/docs.+/"
+
+  - label: "feature"
+    branch:
+      - "/feat/.+/"
+    title:
+      - "/feat.+/"
+
+  - label: "fix"
+    branch:
+      - "/fix/.+/"
+    title:
+      - "/fix.+/"
+
+categories:
+  - title: "⬆️ Dependencies"
+    collapse-after: 3
+    labels:
+      - "dependencies"
+
+  - title: "🐛 Bug Fixes"
+    labels:
+      - "bugfix"
+
+  - title: "🚀 Features"
+    labels:
+      - "feature"
+
+  - title: "📄 Documentation"
+    labels:
+      - "documentation"
+
+  - title: "🧰 Maintenance"
+    labels:
+      - "maintenance"
+      - "chore"
+      - "ci"
+
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+change-title-escapes: '\<*_&'
+
+template: |
+  $CHANGES
