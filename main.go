@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/majabojarska/fibo/controller"
@@ -10,23 +9,19 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-const HTTP_PORT_DEFAULT = 8080
+const httpPortDefault = 8080
 
-type GetFibonacciRequest struct {
-	Count int `json:"count"`
-}
-
-//	@title			Fibonacci API
-//	@version		1.0
+//	@title	  		Fibonacci API
+//	@version	  	1.0
 //	@description	This is a streaming Fibonacci API
 
 //	@contact.name	Maja Bojarska
 //	@contact.url	https://github.com/majabojarska/fibo/issues/new
 
 // @license.name	MIT License
-// @license.url	https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme
+// @license.url	  https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme
 
-//	@host		localhost:8080
+//	@host		  localhost:8080
 //	@BasePath	/api/v1
 
 func main() {
@@ -38,14 +33,13 @@ func main() {
 	{
 		groupFibonacci := groupV1.Group("")
 		{
-			groupFibonacci.GET("fibonacci", func(ctx *gin.Context) {
-				ctx.String(http.StatusOK, "Hello there! - Obi-Wan Kenobi")
-			})
+			groupFibonacci.GET("fibonacci", ctrl.GetFibonacci)
 		}
 	}
-	fmt.Printf("%+v", ctrl)
+
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	err := router.Run(":8080")
+
+	err := router.Run(fmt.Sprintf(":%d", httpPortDefault))
 	if err != nil {
 		panic(err)
 	}
