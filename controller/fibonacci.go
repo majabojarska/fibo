@@ -17,9 +17,9 @@ func (c *Controller) GetFibonacci(ctx *gin.Context) {
 	writer := ctx.Writer
 
 	countRaw := ctx.Param("count")
-	requestedCount, err := strconv.Atoi(countRaw)
-	if err != nil {
-		if err := ctx.AbortWithError(http.StatusBadRequest, err); err != nil {
+	requestedCount, parseErr := strconv.Atoi(countRaw)
+	if parseErr != nil {
+		if err := ctx.AbortWithError(http.StatusBadRequest, parseErr); err != nil {
 			panic(err)
 		}
 		return
