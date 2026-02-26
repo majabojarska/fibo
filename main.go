@@ -5,7 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/majabojarska/fibo/controller"
-	fiboDocs "github.com/majabojarska/fibo/docs"
+
+	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -13,12 +14,6 @@ import (
 const httpPortDefault = 8080
 
 func main() {
-	fiboDocs.SwaggerInfo.Title = "Fibonacci API"
-	fiboDocs.SwaggerInfo.Description = "This is a Fibonacci API"
-	fiboDocs.SwaggerInfo.Version = "1.0"
-	fiboDocs.SwaggerInfo.BasePath = "/api/v1"
-	fiboDocs.SwaggerInfo.Schemes = []string{"http", "https"}
-
 	router := gin.Default()
 
 	ctrl := controller.NewController()
