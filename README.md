@@ -1,5 +1,9 @@
 # fibo
 
+## Development
+
+See [DEVELOPMENT.md](./DEVELOPMENT.md)
+
 ## To-do
 
 Roughly in order of execution:
