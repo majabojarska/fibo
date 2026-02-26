@@ -33,7 +33,7 @@ func main() {
 	{
 		groupFibonacci := groupV1.Group("")
 		{
-			groupFibonacci.GET("fibonacci", ctrl.GetFibonacci)
+			groupFibonacci.GET("fibonacci/:count", ctrl.GetFibonacci)
 		}
 	}
 
