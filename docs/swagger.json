@@ -1,0 +1,19 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a streaming Fibonacci API",
+        "title": "Fibonacci API",
+        "contact": {
+            "name": "Maja Bojarska",
+            "url": "https://github.com/majabojarska/fibo/issues/new"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {}
+}

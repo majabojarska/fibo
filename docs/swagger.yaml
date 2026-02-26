@@ -1,0 +1,14 @@
+basePath: /api/v1
+host: localhost:8080
+info:
+  contact:
+    name: Maja Bojarska
+    url: https://github.com/majabojarska/fibo/issues/new
+  description: This is a streaming Fibonacci API
+  license:
+    name: MIT License
+    url: https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme
+  title: Fibonacci API
+  version: "1.0"
+paths: {}
+swagger: "2.0"
