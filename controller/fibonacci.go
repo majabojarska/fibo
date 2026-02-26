@@ -9,10 +9,18 @@ import (
 	"github.com/majabojarska/fibo/internal/fibonacci"
 )
 
-type FibonacciRequest struct {
-	Count int `json:"count" example:"5" binding:"required,min=0"`
-}
-
+// GetFibonacci godoc
+//
+//	@Summary		Get Fibonacci sequence
+//	@Description	Generates a finite length Fibonacci sequence
+//	@ID				get-fibonacci
+//	@Tags			fibonacci
+//	@Param			count	path		int		true	"Desired sequence size"
+//	@Success		200		{object}	{array}	int
+//	@Failure		400		{object}	httputil.HTTPError
+//	@Failure		404		{object}	httputil.HTTPError
+//	@Failure		500		{object}	httputil.HTTPError
+//	@Router			/fibonacci/{count} [get]
 func (c *Controller) GetFibonacci(ctx *gin.Context) {
 	writer := ctx.Writer
 

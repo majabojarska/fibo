@@ -5,26 +5,20 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/majabojarska/fibo/controller"
+	fiboDocs "github.com/majabojarska/fibo/docs"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 const httpPortDefault = 8080
 
-//	@title	  		Fibonacci API
-//	@version	  	1.0
-//	@description	This is a streaming Fibonacci API
-
-//	@contact.name	Maja Bojarska
-//	@contact.url	https://github.com/majabojarska/fibo/issues/new
-
-// @license.name	MIT License
-// @license.url	  https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme
-
-//	@host		  localhost:8080
-//	@BasePath	/api/v1
-
 func main() {
+	fiboDocs.SwaggerInfo.Title = "Fibonacci API"
+	fiboDocs.SwaggerInfo.Description = "This is a Fibonacci API"
+	fiboDocs.SwaggerInfo.Version = "1.0"
+	fiboDocs.SwaggerInfo.BasePath = "/api/v1"
+	fiboDocs.SwaggerInfo.Schemes = []string{"http", "https"}
+
 	router := gin.Default()
 
 	ctrl := controller.NewController()
