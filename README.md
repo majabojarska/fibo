@@ -9,7 +9,9 @@ See [DEVELOPMENT.md](./DEVELOPMENT.md)
 Roughly in order of execution:
 
 - Build a REST API around the fibo sequence iterator.
-  - Use [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events) for subsequent fibo item streaming.
+  - Use chunked data https://github.dev/gin-gonic/examples/blob/ec3c1774716d51e4100ae4f995957048d2c86030/otel/main.go
+- Add `livez`, `readyz` endpoints.
+- Fuzzing tests? https://go.dev/doc/tutorial/fuzz
 - Containerize
   - Dockerfile
   - Docker compose
@@ -24,6 +26,8 @@ Roughly in order of execution:
   - Zap for logging.
   - The REST API will be instrumented with [prometheus/client_golang](https://github.com/prometheus/client_golang).
   - Traces if I have the time to do that.
+    - https://github.dev/gin-gonic/examples/blob/ec3c1774716d51e4100ae4f995957048d2c86030/otel/main.go
   - LGTM stack or similar via docker compose.
+
 - Helm chart.
   - Feature parity with docker compose.

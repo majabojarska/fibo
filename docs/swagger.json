@@ -1,0 +1,65 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Fibonacci sequence REST API",
+        "title": "Fibo",
+        "contact": {
+            "name": "Maja Bojarska",
+            "url": "https://github.com/majabojarska/fibo",
+            "email": "majabojarska98@gmail.com"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/fibonacci/{count}": {
+            "get": {
+                "description": "Generates a finite length Fibonacci sequence",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "fibonacci"
+                ],
+                "summary": "Get Fibonacci sequence",
+                "operationId": "get-fibonacci",
+                "parameters": [
+                    {
+                        "minimum": 0,
+                        "type": "integer",
+                        "name": "count",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fibonacci sequence items",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
