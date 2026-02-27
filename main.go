@@ -24,13 +24,14 @@ import (
 //	@BasePath	/
 
 const (
-	apiListenAddrDefault = ":8080"
-	metricsPathDefault   = "/metrics"
+	apiListenAddrDefault     = ":8080"
+	metricsListenAddrDefault = ":9090"
+	metricsPathDefault       = "/metrics"
 )
 
 func setupRouter() *gin.Engine {
 	router := gin.Default()
-	SetupPromMiddleware(router, metricsPathDefault) // Must be before route setup
+	SetupPromMiddleware(router, metricsListenAddrDefault, metricsPathDefault) // Must be before route setup
 
 	ctrl := controller.NewController()
 
