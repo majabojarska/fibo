@@ -23,7 +23,7 @@ Swagger API docs can be accessed at http://localhost:8080/swagger/index.html
 Prometheus-style metrics are exposed at `/metrics`. This includes Go and Gin (API) metrics.
 
 ```plain
-$ curl -s localhost:8080/metrics
+$ curl -s localhost:9090/metrics
 # HELP gin_request_duration_seconds The HTTP request latencies in seconds.
 # TYPE gin_request_duration_seconds histogram
 gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.005"} 169
