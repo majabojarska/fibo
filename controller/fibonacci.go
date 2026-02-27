@@ -2,7 +2,6 @@ package controller
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/majabojarska/fibo/internal/fibonacci"
@@ -54,7 +53,7 @@ func writeFibo(writer gin.ResponseWriter, wantCount int) error {
 	sentCount := 0
 	for fiboVal := range fibonacci.Fibonacci(wantCount) {
 		// Sequence item
-		if _, err := writer.WriteString(strconv.Itoa(fiboVal)); err != nil {
+		if _, err := writer.WriteString(fiboVal.String()); err != nil {
 			return err
 		}
 
