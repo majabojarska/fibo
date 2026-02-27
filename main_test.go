@@ -32,6 +32,28 @@ func TestGetFibonacci(t *testing.T) {
 				http.CanonicalHeaderKey("Transfer-Encoding"): "chunked",
 			},
 		},
+		{
+			name:           "Valid fibonacci sequence request (1 item)",
+			method:         http.MethodGet,
+			url:            "/api/v1/fibonacci/1",
+			wantStatusCode: http.StatusOK,
+			wantContains:   "[0]",
+			wantHeaders: gin.H{
+				http.CanonicalHeaderKey("Content-Type"):      "application/json",
+				http.CanonicalHeaderKey("Transfer-Encoding"): "chunked",
+			},
+		},
+		{
+			name:           "Valid fibonacci sequence request (2 items)",
+			method:         http.MethodGet,
+			url:            "/api/v1/fibonacci/2",
+			wantStatusCode: http.StatusOK,
+			wantContains:   "[0,1]",
+			wantHeaders: gin.H{
+				http.CanonicalHeaderKey("Content-Type"):      "application/json",
+				http.CanonicalHeaderKey("Transfer-Encoding"): "chunked",
+			},
+		},
 	}
 
 	for _, tt := range tests {
