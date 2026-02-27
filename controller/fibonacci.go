@@ -23,7 +23,7 @@ type GetFibonacciPathParams struct {
 //	@Success		200	{array}		int	"Fibonacci sequence items"
 //	@Failure		400	{object}	object
 //	@Failure		500	{object}	object
-//	@Router			/fibonacci/{count} [get]
+//	@Router			/api/v1/fibonacci/{count} [get]
 func (c *Controller) GetFibonacci(ctx *gin.Context) {
 	writer := ctx.Writer
 	header := writer.Header()

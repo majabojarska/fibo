@@ -23,7 +23,7 @@ import (
 //	@license.url	https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme
 
 //	@host		localhost:8080
-//	@BasePath	/api/v1
+//	@BasePath	/
 
 const httpPortDefault = 8080
 

@@ -23,7 +23,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/fibonacci/{count}": {
+        "/api/v1/fibonacci/{count}": {
             "get": {
                 "description": "Generates a finite length Fibonacci sequence",
                 "produces": [
@@ -120,7 +120,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:8080",
-	BasePath:         "/api/v1",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Fibo",
 	Description:      "Fibonacci sequence REST API",

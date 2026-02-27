@@ -15,9 +15,9 @@
         "version": "1.0"
     },
     "host": "localhost:8080",
-    "basePath": "/api/v1",
+    "basePath": "/",
     "paths": {
-        "/fibonacci/{count}": {
+        "/api/v1/fibonacci/{count}": {
             "get": {
                 "description": "Generates a finite length Fibonacci sequence",
                 "produces": [

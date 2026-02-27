@@ -1,4 +1,4 @@
-basePath: /api/v1
+basePath: /
 host: localhost:8080
 info:
   contact:
@@ -12,7 +12,7 @@ info:
   title: Fibo
   version: "1.0"
 paths:
-  /fibonacci/{count}:
+  /api/v1/fibonacci/{count}:
     get:
       description: Generates a finite length Fibonacci sequence
       operationId: get-fibonacci
