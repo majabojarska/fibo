@@ -79,8 +79,8 @@ func TestGetFibonacci(t *testing.T) {
 		},
 		{
 			name:           "POST fibonacci with valid path param",
-			method:         http.MethodGet,
-			url:            "/api/v1/fibonacci",
+			method:         http.MethodPost,
+			url:            "/api/v1/fibonacci/5",
 			wantStatusCode: http.StatusNotFound,
 			wantContains:   "404 page not found",
 			wantHeaders:    http.Header{"Content-Type": []string{"text/plain"}},
