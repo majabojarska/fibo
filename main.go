@@ -27,7 +27,7 @@ import (
 
 const httpPortDefault = 8080
 
-func main() {
+func setupRouter() *gin.Engine {
 	router := gin.Default()
 
 	ctrl := controller.NewController()
@@ -41,6 +41,12 @@ func main() {
 	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	return router
+}
+
+func main() {
+	router := setupRouter()
 
 	err := router.Run(fmt.Sprintf(":%d", httpPortDefault))
 	if err != nil {
