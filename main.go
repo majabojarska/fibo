@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/majabojarska/fibo/controller"
@@ -48,14 +49,27 @@ func setupRouter() *gin.Engine {
 	router.GET("/livez", ctrl.GetLivez)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	// Prometheus
+	setupPromMiddleware(router, metricsPathDefault)
+
+	return router
+}
+
+func setupPromMiddleware(router *gin.Engine, metricsPath string) {
 	prom := ginprometheus.NewWithConfig(ginprometheus.Config{
 		Subsystem: "gin",
 	})
 	prom.MetricsPath = metricsPathDefault
+	prom.ReqCntURLLabelMappingFn = func(ctx *gin.Context) string {
+		url := ctx.Request.URL.Path
+		for _, param := range ctx.Params {
+			if param.Key == "count" {
+				url = strings.Replace(url, param.Value, ":count", 1)
+				break
+			}
+		}
+		return url
+	}
 	prom.Use(router)
-
-	return router
 }
 
 func main() {
