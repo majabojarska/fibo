@@ -22,7 +22,6 @@ type GetFibonacciPathParams struct {
 //	@Produce		json
 //	@Success		200	{array}		int	"Fibonacci sequence items"
 //	@Failure		400	{object}	object
-//	@Failure		404	{object}	object
 //	@Failure		500	{object}	object
 //	@Router			/fibonacci/{count} [get]
 func (c *Controller) GetFibonacci(ctx *gin.Context) {
