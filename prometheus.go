@@ -1,7 +1,7 @@
 package main
 
 import (
-	"strings"
+	"regexp"
 
 	"github.com/gin-gonic/gin"
 	ginprometheus "github.com/zsais/go-gin-prometheus"
@@ -9,12 +9,12 @@ import (
 
 func promUrlRelabel(ctx *gin.Context) string {
 	url := ctx.Request.URL.Path
-	for _, param := range ctx.Params {
-		if param.Key == "count" {
-			url = strings.Replace(url, param.Value, ":count", 1)
-			break
-		}
-	}
+
+	// Hacky, but does the job for now.
+	// The goal is to reduce metrics cardinality.
+	re := regexp.MustCompile(`^/api/v1/fibonacci/(\d+)$`)
+	url = re.ReplaceAllString(url, "/api/v1/fibonacci/:count")
+
 	return url
 }
 
