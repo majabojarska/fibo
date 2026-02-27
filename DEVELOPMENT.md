@@ -2,27 +2,14 @@
 
 This guide assumes you're using a Linux system.
 
-## Quick start
-
-```sh
-go run .
-```
-
-The web server will bind to `http://localhost:8080/`.
-
-To query a Fibonacci sequence:
-
-```sh
-curl -s --no-buffer localhost:8080/api/v1/fibonacci/10
-# Outputs:
-# [0,1,1,2,3,5,8,13,21,34]
-```
-
-Swagger API docs can be accessed at http://localhost:8080/swagger/index.html
-
 ## Building
 
-To be defined
+### Binary
+
+```sh
+go build .
+# Outputs binary: ./fibo
+```
 
 ## Development
 
