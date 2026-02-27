@@ -39,9 +39,9 @@ func setupRouter() *gin.Engine {
 
 	groupV1 := router.Group("/api/v1")
 	{
-		groupFibonacci := groupV1.Group("")
+		groupFibonacci := groupV1.Group("fibonacci")
 		{
-			groupFibonacci.GET("fibonacci/:count", ctrl.GetFibonacci)
+			groupFibonacci.GET(":count", ctrl.GetFibonacci)
 		}
 	}
 
