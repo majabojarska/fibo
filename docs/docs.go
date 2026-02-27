@@ -26,6 +26,9 @@ const docTemplate = `{
         "/fibonacci/{count}": {
             "get": {
                 "description": "Generates a finite length Fibonacci sequence",
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "fibonacci"
                 ],
@@ -33,11 +36,10 @@ const docTemplate = `{
                 "operationId": "get-fibonacci",
                 "parameters": [
                     {
+                        "minimum": 0,
                         "type": "integer",
-                        "description": "Desired sequence size",
                         "name": "count",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     }
                 ],
                 "responses": {

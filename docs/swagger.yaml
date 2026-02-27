@@ -17,11 +17,12 @@ paths:
       description: Generates a finite length Fibonacci sequence
       operationId: get-fibonacci
       parameters:
-      - description: Desired sequence size
-        in: path
+      - in: path
+        minimum: 0
         name: count
-        required: true
         type: integer
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
