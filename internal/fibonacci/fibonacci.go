@@ -1,21 +1,27 @@
 // Package fibonacci implements Fibonacci sequence generation logic.
 package fibonacci
 
-import "iter"
+import (
+	"iter"
+	"math/big"
+)
 
-// Fibonacci returns an iter.Seq[int], which generates
+// Fibonacci returns an iter.Seq[*big.Int], which generates
 // a finite Fibonacci sequence, starting at 0.
-func Fibonacci(count int) iter.Seq[int] {
-	return func(yield func(int) bool) {
+func Fibonacci(count int) iter.Seq[*big.Int] {
+	return func(yield func(*big.Int) bool) {
 		returnCount := 0
-		left, right := 0, 1
+		left, right := big.NewInt(0), big.NewInt(1)
 
 		for {
-			if returnCount >= count || !yield(left) {
+			yieldVal := new(big.Int).Set(left)
+			if returnCount >= count || !yield(yieldVal) {
 				return
 			}
-			left, right = right, left+right
 			returnCount++
+
+			left.Add(left, right)
+			left, right = right, left
 		}
 	}
 }
