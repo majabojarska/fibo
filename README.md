@@ -24,20 +24,22 @@ Prometheus-style metrics are exposed at `/metrics`. This includes Go and Gin (AP
 
 ```plain
 $ curl -s localhost:8080/metrics
-# HELP gin_request_size_bytes The HTTP request sizes in bytes.
-# TYPE gin_request_size_bytes summary
-gin_request_size_bytes_sum 0
-gin_request_size_bytes_count 0
-# HELP gin_response_size_bytes The HTTP response sizes in bytes.
-# TYPE gin_response_size_bytes summary
-gin_response_size_bytes_sum 0
-gin_response_size_bytes_count 0
-
-# ...
-
-promhttp_metric_handler_requests_total{code="200"} 5
-promhttp_metric_handler_requests_total{code="500"} 0
-promhttp_metric_handler_requests_total{code="503"} 0
+# HELP gin_request_duration_seconds The HTTP request latencies in seconds.
+# TYPE gin_request_duration_seconds histogram
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.005"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.01"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.025"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.05"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.1"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.25"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.5"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="1"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="2.5"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="5"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="10"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="+Inf"} 169
+gin_request_duration_seconds_sum{code="200",method="GET",url="/api/v1/fibonacci/:count"} 0.013545205999999997
+gin_request_duration_seconds_count{code="200",method="GET",url="/api/v1/fibonacci/:count"} 169
 ```
 
 ## Development
