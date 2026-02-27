@@ -27,9 +27,8 @@ import (
 //	@BasePath	/
 
 const (
-	httpPortDefault        = 8080
-	httpMetricsPortDefault = 9090
-	metricsPathDefault     = "/metrics"
+	httpPortDefault    = 8080
+	metricsPathDefault = "/metrics"
 )
 
 func setupRouter() *gin.Engine {
