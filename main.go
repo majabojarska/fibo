@@ -30,12 +30,13 @@ const (
 
 func setupRouter() *gin.Engine {
 	router := gin.Default()
+	SetupPromMiddleware(router, metricsPathDefault) // Must be before route setup
 
 	ctrl := controller.NewController()
 
 	groupV1 := router.Group("/api/v1")
 	{
-		groupFibonacci := groupV1.Group("fibonacci")
+		groupFibonacci := groupV1.Group("/fibonacci")
 		{
 			groupFibonacci.GET(":count", ctrl.GetFibonacci)
 		}
@@ -44,8 +45,6 @@ func setupRouter() *gin.Engine {
 	router.GET("/readyz", ctrl.GetReadyz)
 	router.GET("/livez", ctrl.GetLivez)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	SetupPromMiddleware(router, metricsPathDefault)
 
 	return router
 }
