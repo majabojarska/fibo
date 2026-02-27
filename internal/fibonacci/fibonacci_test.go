@@ -3,6 +3,7 @@ package fibonacci_test
 import (
 	"fmt"
 	"iter"
+	"math/big"
 	"reflect"
 	"slices"
 	"testing"
@@ -15,7 +16,7 @@ import (
 func TestFibonacciExhaustSeq(t *testing.T) {
 	tests := []struct {
 		wantCount int
-		wantSlice []int
+		wantItems []int // Use int for easier maintenance
 	}{
 		{
 			0,
@@ -39,8 +40,17 @@ func TestFibonacciExhaustSeq(t *testing.T) {
 			fiboIter := fibonacci.Fibonacci(tt.wantCount)
 			got := slices.Collect(fiboIter)
 
-			if !reflect.DeepEqual(got, tt.wantSlice) {
-				t.Errorf("Fibonacci() = %v, want %v", got, tt.wantSlice)
+			var wantItemsBigInt []*big.Int
+
+			if len(tt.wantItems) > 0 {
+				wantItemsBigInt = make([]*big.Int, len(tt.wantItems))
+				for idx, item := range tt.wantItems {
+					wantItemsBigInt[idx] = big.NewInt(int64(item))
+				}
+			}
+
+			if !reflect.DeepEqual(got, wantItemsBigInt) {
+				t.Errorf("Fibonacci() = %v, want %v", got, wantItemsBigInt)
 			}
 		})
 	}
