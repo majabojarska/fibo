@@ -11,7 +11,7 @@ The web server will bind to `http://localhost:8080/`.
 To query a Fibonacci sequence:
 
 ```sh
-curl -s --no-buffer localhost:8080/api/v1/fibonacci/10
+$ curl -s --no-buffer localhost:8080/api/v1/fibonacci/10
 # Outputs:
 # [0,1,1,2,3,5,8,13,21,34]
 ```
@@ -19,6 +19,26 @@ curl -s --no-buffer localhost:8080/api/v1/fibonacci/10
 Swagger API docs can be accessed at http://localhost:8080/swagger/index.html
 
 ![Swagger preview](./static/img/swagger.webp)
+
+Prometheus-style metrics are exposed at `/metrics`. This includes Go and Gin (API) metrics.
+
+```plain
+$ curl -s localhost:8080/metrics
+# HELP gin_request_size_bytes The HTTP request sizes in bytes.
+# TYPE gin_request_size_bytes summary
+gin_request_size_bytes_sum 0
+gin_request_size_bytes_count 0
+# HELP gin_response_size_bytes The HTTP response sizes in bytes.
+# TYPE gin_response_size_bytes summary
+gin_response_size_bytes_sum 0
+gin_response_size_bytes_count 0
+
+# ...
+
+promhttp_metric_handler_requests_total{code="200"} 5
+promhttp_metric_handler_requests_total{code="500"} 0
+promhttp_metric_handler_requests_total{code="503"} 0
+```
 
 ## Development
 
