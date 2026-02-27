@@ -23,7 +23,7 @@ import (
 //	@license.url	https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme
 
 //	@host		localhost:8080
-//	@BasePath	/api/v1
+//	@BasePath	/
 
 const httpPortDefault = 8080
 
@@ -40,6 +40,8 @@ func setupRouter() *gin.Engine {
 		}
 	}
 
+	router.GET("/readyz", ctrl.GetReadyz)
+	router.GET("/livez", ctrl.GetLivez)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router
