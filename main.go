@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/majabojarska/fibo/controller"
 
@@ -25,18 +23,23 @@ import (
 //	@host		localhost:8080
 //	@BasePath	/
 
-const httpPortDefault = 8080
+const (
+	apiListenAddrDefault     = ":8080"
+	metricsListenAddrDefault = ":9090"
+	metricsPathDefault       = "/metrics"
+)
 
 func setupRouter() *gin.Engine {
 	router := gin.Default()
+	SetupPromMiddleware(router, metricsListenAddrDefault, metricsPathDefault) // Must be before route setup
 
 	ctrl := controller.NewController()
 
 	groupV1 := router.Group("/api/v1")
 	{
-		groupFibonacci := groupV1.Group("")
+		groupFibonacci := groupV1.Group("/fibonacci")
 		{
-			groupFibonacci.GET("fibonacci/:count", ctrl.GetFibonacci)
+			groupFibonacci.GET(":count", ctrl.GetFibonacci)
 		}
 	}
 
@@ -50,7 +53,7 @@ func setupRouter() *gin.Engine {
 func main() {
 	router := setupRouter()
 
-	err := router.Run(fmt.Sprintf(":%d", httpPortDefault))
+	err := router.Run(apiListenAddrDefault)
 	if err != nil {
 		panic(err)
 	}
