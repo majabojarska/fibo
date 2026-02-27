@@ -9,6 +9,7 @@ import (
 	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	ginProm "github.com/zsais/go-gin-prometheus"
 )
 
 //	@title			Fibo
@@ -43,6 +44,12 @@ func setupRouter() *gin.Engine {
 	router.GET("/readyz", ctrl.GetReadyz)
 	router.GET("/livez", ctrl.GetLivez)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	// Prometheus
+	prom := ginProm.NewWithConfig(ginProm.Config{
+		Subsystem: "gin",
+	})
+	prom.Use(router)
 
 	return router
 }
