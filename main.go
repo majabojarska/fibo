@@ -1,15 +1,12 @@
 package main
 
 import (
-	"strings"
-
 	"github.com/gin-gonic/gin"
 	"github.com/majabojarska/fibo/controller"
 
 	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	ginprometheus "github.com/zsais/go-gin-prometheus"
 )
 
 //	@title			Fibo
@@ -27,9 +24,8 @@ import (
 //	@BasePath	/
 
 const (
-	apiListenAddrDefault     = ":8080"
-	metricsListenAddrDefault = ":9090"
-	metricsPathDefault       = "/metrics"
+	apiListenAddrDefault = ":8080"
+	metricsPathDefault   = "/metrics"
 )
 
 func setupRouter() *gin.Engine {
@@ -49,30 +45,9 @@ func setupRouter() *gin.Engine {
 	router.GET("/livez", ctrl.GetLivez)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	setupPromMiddleware(router, metricsPathDefault)
+	SetupPromMiddleware(router, metricsPathDefault)
 
 	return router
-}
-
-func promUrlRelabel(ctx *gin.Context) string {
-	url := ctx.Request.URL.Path
-	for _, param := range ctx.Params {
-		if param.Key == "count" {
-			url = strings.Replace(url, param.Value, ":count", 1)
-			break
-		}
-	}
-	return url
-}
-
-func setupPromMiddleware(router *gin.Engine, metricsPath string) {
-	prom := ginprometheus.NewWithConfig(ginprometheus.Config{
-		Subsystem: "gin",
-	})
-	prom.MetricsPath = metricsPathDefault
-	prom.SetListenAddress(":9090")
-	prom.ReqCntURLLabelMappingFn = promUrlRelabel
-	prom.Use(router)
 }
 
 func main() {
