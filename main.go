@@ -9,7 +9,7 @@ import (
 	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	ginProm "github.com/zsais/go-gin-prometheus"
+	ginprometheus "github.com/zsais/go-gin-prometheus"
 )
 
 //	@title			Fibo
@@ -26,7 +26,11 @@ import (
 //	@host		localhost:8080
 //	@BasePath	/
 
-const httpPortDefault = 8080
+const (
+	httpPortDefault        = 8080
+	httpMetricsPortDefault = 9090
+	metricsPathDefault     = "/metrics"
+)
 
 func setupRouter() *gin.Engine {
 	router := gin.Default()
@@ -46,9 +50,10 @@ func setupRouter() *gin.Engine {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Prometheus
-	prom := ginProm.NewWithConfig(ginProm.Config{
+	prom := ginprometheus.NewWithConfig(ginprometheus.Config{
 		Subsystem: "gin",
 	})
+	prom.MetricsPath = metricsPathDefault
 	prom.Use(router)
 
 	return router
