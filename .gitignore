@@ -33,3 +33,4 @@ go.work.sum
 
 # Dev build artifacts
 tmp
+fibo
