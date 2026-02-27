@@ -56,6 +56,38 @@ func TestFibonacciExhaustSeq(t *testing.T) {
 	}
 }
 
+func TestFibonacci64bitOverflow(t *testing.T) {
+	tests := []struct {
+		itemNum       int
+		wantValuesStr string
+	}{
+		{
+			93, // Largest one that fits in int64
+			"7540113804746346429",
+		},
+		{
+			94, // First one to overflow
+			"12200160415121876738",
+		},
+		{
+			100, // Just to be sure, against off-by-ones
+			"218922995834555169026",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(fmt.Sprintf("Fibonacci item %d", tt.itemNum), func(t *testing.T) {
+			var last *big.Int
+			for last = range fibonacci.Fibonacci(tt.itemNum) {
+			}
+
+			if last.String() != tt.wantValuesStr {
+				t.Errorf("Fibonacci item %d = %s, want %s", tt.itemNum, last.String(), tt.wantValuesStr)
+			}
+		})
+	}
+}
+
 // TestFibonacciStopEarly tests compatibility with range loops and iterator adapters,
 // by calling stop early, before the sequence is exhausted.
 func TestFibonacciStopEarly(t *testing.T) {
