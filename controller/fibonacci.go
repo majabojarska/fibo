@@ -18,12 +18,12 @@ type GetFibonacciPathParams struct {
 //	@Description	Generates a finite length Fibonacci sequence
 //	@ID				get-fibonacci
 //	@Tags			fibonacci
-//	@Param			count	path	CountUri	true	"Desired sequence size"
+//	@Param			count	path	GetFibonacciPathParams	true	"Desired sequence size"
 //	@Produce		json
-//	@Success		200	{array}		int
-//	@Failure		400	{object}	string
-//	@Failure		404	{object}	string
-//	@Failure		500	{object}	string
+//	@Success		200	{array}		int	"Fibonacci sequence items"
+//	@Failure		400	{object}	object
+//	@Failure		404	{object}	object
+//	@Failure		500	{object}	object
 //	@Router			/fibonacci/{count} [get]
 func (c *Controller) GetFibonacci(ctx *gin.Context) {
 	writer := ctx.Writer

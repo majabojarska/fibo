@@ -44,7 +44,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Fibonacci sequence items",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -55,19 +55,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "type": "object"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "type": "string"
+                            "type": "object"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "type": "object"
                         }
                     }
                 }
