@@ -66,6 +66,52 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/livez": {
+            "get": {
+                "tags": [
+                    "healthcheck"
+                ],
+                "summary": "Get liveness",
+                "operationId": "get-livez",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/readyz": {
+            "get": {
+                "tags": [
+                    "healthcheck"
+                ],
+                "summary": "Get readiness",
+                "operationId": "get-readyz",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
         }
     }
 }`

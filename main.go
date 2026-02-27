@@ -40,6 +40,8 @@ func setupRouter() *gin.Engine {
 		}
 	}
 
+	router.GET("/readyz", ctrl.GetReadyz)
+	router.GET("/livez", ctrl.GetLivez)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router

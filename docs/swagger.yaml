@@ -41,4 +41,34 @@ paths:
       summary: Get Fibonacci sequence
       tags:
       - fibonacci
+  /livez:
+    get:
+      operationId: get-livez
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: Get liveness
+      tags:
+      - healthcheck
+  /readyz:
+    get:
+      operationId: get-readyz
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: Get readiness
+      tags:
+      - healthcheck
 swagger: "2.0"
