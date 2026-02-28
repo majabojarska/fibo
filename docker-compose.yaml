@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    environment: # TODO: Add viper config here
+      - GIN_MODE=release
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - "CMD"
+        - "curl"
+        - "-f"
+        - "http://localhost:8080/livez"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
