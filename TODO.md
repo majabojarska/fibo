@@ -3,7 +3,7 @@
 Roughly in order of execution:
 
 
-- Use JSON responses ("message", "error", "data"). Each elem is one json object.
+- Use JSON responses ("message", "error", "data"). Each elem is one json object. SSE streaming. 
 - Set up Viper for config mgmt
 - Fuzzing tests? https://go.dev/doc/tutorial/fuzz
 
