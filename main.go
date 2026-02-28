@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	ctrl "github.com/majabojarska/fibo/controller"
 	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
+	config "github.com/majabojarska/fibo/internal/config"
 	"github.com/spf13/viper"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -69,7 +70,7 @@ func setupRouter(logger *zap.Logger) *gin.Engine {
 }
 
 func main() {
-	LoadConfig()
+	config.LoadConfig()
 
 	var logger *zap.Logger
 
