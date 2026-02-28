@@ -13,3 +13,7 @@ README*
 LICENSE*
 CONTRIBUTING*
 TODO*
+
+# Misc
+*.log
+*.tmp
