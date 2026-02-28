@@ -3,7 +3,7 @@
 ## Getting Started
 
 ```sh
-go run .
+docker compose up
 ```
 
 The web server will bind to `http://localhost:8080/`.
