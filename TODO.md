@@ -21,3 +21,5 @@ Roughly in order of execution:
   - LGTM stack or similar via docker compose.
 - Helm chart.
   - Feature parity with docker compose.
+- Add optional pprof
+
