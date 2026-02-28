@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	config "github.com/majabojarska/fibo/config"
 	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
+	config "github.com/majabojarska/fibo/internal/config"
 	"github.com/majabojarska/fibo/internal/routes"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
