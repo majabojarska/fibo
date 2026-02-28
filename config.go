@@ -1,22 +1,25 @@
 package main
 
-type Config struct {
-	Api struct {
-		Addr string `mapstructure:"addr"`
-		Port int    `mapstucture:"port"`
-	} `mapstructure:"api"`
+import (
+	"strings"
 
-	Metrics struct {
-		Enable bool   `mapstructure:"enable"`
-		Addr   string `mapstructure:"addr"`
-		Port   int    `mapstucture:"port"`
-	} `mapstructure:"metrics"`
+	"github.com/spf13/viper"
+)
 
-	Docs struct {
-		Enable bool   `mapstructure:"enable"`
-		Addr   string `mapstructure:"addr"`
-		Port   int    `mapstucture:"port"`
-	} `mapstructure:"docs"`
+func setDefaults() {
+	viper.SetDefault("api.addr", ":8080")
+	viper.SetDefault("metrics.enabled", true)
+	viper.SetDefault("metrics.addr", ":9090")
+	viper.SetDefault("metrics.path", "/metrics")
+	viper.SetDefault("docs.enabled", true)
+	viper.SetDefault("docs.path", "/swagger/*any")
+	viper.SetDefault("debug", false)
+}
 
-	Debug bool `mapstructure:"debug"`
+func LoadConfig() {
+	viper.AutomaticEnv()
+	viper.SetEnvPrefix("FIBO")
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+
+	setDefaults()
 }
