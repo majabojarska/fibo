@@ -1,4 +1,4 @@
-package controller
+package routes
 
 import (
 	"bytes"
@@ -24,7 +24,7 @@ type GetFibonacciPathParams struct {
 //	@Failure		400	{object}	object
 //	@Failure		500	{object}	object
 //	@Router			/api/v1/fibonacci/{count} [get]
-func (c *Controller) GetFibonacci(ctx *gin.Context) {
+func GetFibonacci(ctx *gin.Context) {
 	writer := ctx.Writer
 	header := writer.Header()
 	header.Set("Content-Type", "application/json")

@@ -8,13 +8,13 @@ RUN go mod download && go mod verify
 
 COPY ./ ./
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o /app/server .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o /app/api .
 
 FROM scratch
 
-COPY --from=build /app/server /server
+COPY --from=build /app/api /api
 
 EXPOSE 8080
 EXPOSE 9090
 
-ENTRYPOINT ["/server"]
+ENTRYPOINT ["/api"]

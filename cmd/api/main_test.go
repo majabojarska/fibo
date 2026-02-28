@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/majabojarska/fibo/internal/routes"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 )
@@ -15,7 +16,7 @@ func TestGetFibonacci(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	router := setupRouter(logger)
+	router := routes.SetupRouter(logger)
 
 	tests := []struct {
 		name           string
@@ -114,7 +115,7 @@ func TestHealthchecks(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	router := setupRouter(logger)
+	router := routes.SetupRouter(logger)
 
 	tests := []struct {
 		name           string

@@ -1,17 +1,11 @@
 package main
 
 import (
-	"time"
-
-	ginZap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	config "github.com/majabojarska/fibo/config"
-	ctrl "github.com/majabojarska/fibo/controller"
 	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
-	middleware "github.com/majabojarska/fibo/internal/middleware"
+	"github.com/majabojarska/fibo/internal/routes"
 	"github.com/spf13/viper"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
 )
 
@@ -29,44 +23,6 @@ import (
 //	@host		localhost:8080
 //	@BasePath	/
 
-func setupMiddlewares(router *gin.Engine, logger *zap.Logger) {
-	if viper.GetBool("metrics.enabled") {
-		// Must happen before API route setup
-		middleware.SetupPromMiddleware(router, viper.GetString("metrics.addr"), viper.GetString("metrics.path"))
-	}
-
-	// Zap integration
-	router.Use(ginZap.Ginzap(logger, time.RFC3339, true))
-	router.Use(ginZap.RecoveryWithZap(logger, true))
-}
-
-func setupRoutes(router *gin.Engine) {
-	ctrl := ctrl.NewController()
-
-	groupV1 := router.Group("/api/v1")
-	{
-		groupFibonacci := groupV1.Group("/fibonacci")
-		{
-			groupFibonacci.GET(":count", ctrl.GetFibonacci)
-		}
-	}
-
-	router.GET("/readyz", ctrl.GetReadyz)
-	router.GET("/livez", ctrl.GetLivez)
-	if viper.GetBool("docs.enabled") {
-		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	}
-}
-
-func setupRouter(logger *zap.Logger) *gin.Engine {
-	router := gin.Default()
-
-	setupMiddlewares(router, logger)
-	setupRoutes(router)
-
-	return router
-}
-
 func main() {
 	config.LoadConfig()
 
@@ -81,7 +37,7 @@ func main() {
 	}
 	defer logger.Sync() // nolint:errcheck
 
-	router := setupRouter(logger)
+	router := routes.SetupRouter(logger)
 	err := router.Run(viper.GetString("api.addr"))
 	if err != nil {
 		panic(err)
