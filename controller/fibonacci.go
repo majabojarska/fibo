@@ -38,7 +38,7 @@ func (c *Controller) GetFibonacci(ctx *gin.Context) {
 	writer.WriteHeader(http.StatusOK)
 
 	if err := writeFibo(writer, pathParams.Count); err != nil {
-		panic(err) // TODO: Log this with Zap
+		panic(err)
 	}
 }
 

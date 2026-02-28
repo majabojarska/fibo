@@ -7,11 +7,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestGetFibonacci(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-	router := setupRouter()
+	logger, err := zap.NewDevelopment()
+	if err != nil {
+		t.Error(err)
+	}
+	router := setupRouter(logger)
 
 	tests := []struct {
 		name           string
@@ -106,7 +110,11 @@ func TestGetFibonacci(t *testing.T) {
 // TestHealthchecks tests the /readyz and /livez GET endpoints.
 func TestHealthchecks(t *testing.T) {
 	gin.SetMode(gin.TestMode)
-	router := setupRouter()
+	logger, err := zap.NewDevelopment()
+	if err != nil {
+		t.Error(err)
+	}
+	router := setupRouter(logger)
 
 	tests := []struct {
 		name           string
