@@ -20,10 +20,10 @@ repos:
         always_run: true
         stages: [pre-commit, pre-push]
 
-      - id: golangci-lint
-        name: golangci-lint
-        description: Fast linters runner for Go. Note that only modified files are linted, so linters like 'unused' that need to scan all files won't work as expected.
-        entry: golangci-lint run --new-from-rev HEAD --fix
+      - id: golangci-lint-full
+        name: golangci-lint-full
+        description: Fast linters runner for Go. Runs on all files in the module. Use this hook if you use pre-commit in CI.
+        entry: golangci-lint run --fix
         types: [go]
         language: golang
         require_serial: true
