@@ -11,6 +11,12 @@ go build .
 # Outputs binary: ./fibo
 ```
 
+### Docker image
+
+```sh
+docker buildx build -t fibo:latest .
+```
+
 ## Development
 
 Make sure you have the following tools installed:
