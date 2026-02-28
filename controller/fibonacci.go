@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"bytes"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,7 +20,7 @@ type GetFibonacciPathParams struct {
 //	@Tags			fibonacci
 //	@Param			count	path	GetFibonacciPathParams	true	"Desired sequence size"
 //	@Produce		json
-//	@Success		200	{array}		int	"Fibonacci sequence items"
+//	@Success		200	{array}		string "Fibonacci sequence items"
 //	@Failure		400	{object}	object
 //	@Failure		500	{object}	object
 //	@Router			/api/v1/fibonacci/{count} [get]
@@ -52,7 +53,14 @@ func writeFibo(writer gin.ResponseWriter, wantCount int) error {
 	sentCount := 0
 	for fiboVal := range fibonacci.Fibonacci(wantCount) {
 		// Sequence item
-		if _, err := writer.WriteString(fiboVal.String()); err != nil {
+
+		var buf bytes.Buffer
+
+		buf.WriteRune('"')
+		buf.WriteString(fiboVal.String())
+		buf.WriteRune('"')
+
+		if _, err := writer.WriteString(buf.String()); err != nil {
 			return err
 		}
 

@@ -48,7 +48,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "type": "integer"
+                                "type": "string"
                             }
                         }
                     },

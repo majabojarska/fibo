@@ -28,7 +28,7 @@ paths:
           description: Fibonacci sequence items
           schema:
             items:
-              type: integer
+              type: string
             type: array
         "400":
           description: Bad Request
