@@ -33,6 +33,9 @@ func setupRouter() *gin.Engine {
 	router := gin.Default()
 	SetupPromMiddleware(router, metricsListenAddrDefault, metricsPathDefault) // Must be before route setup
 
+	// limiter := NewIPRateLimiter(1, 2)
+	// router.Use(RateLimiterMiddleware(limiter))
+
 	ctrl := controller.NewController()
 
 	groupV1 := router.Group("/api/v1")
