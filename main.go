@@ -2,8 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/majabojarska/fibo/controller"
-
+	ctrl "github.com/majabojarska/fibo/controller"
 	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -33,7 +32,7 @@ func setupRouter() *gin.Engine {
 	router := gin.Default()
 	SetupPromMiddleware(router, metricsListenAddrDefault, metricsPathDefault) // Must be before route setup
 
-	ctrl := controller.NewController()
+	ctrl := ctrl.NewController()
 
 	groupV1 := router.Group("/api/v1")
 	{
