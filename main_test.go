@@ -38,7 +38,7 @@ func TestGetFibonacci(t *testing.T) {
 			method:         http.MethodGet,
 			url:            "/api/v1/fibonacci/1",
 			wantStatusCode: http.StatusOK,
-			wantContains:   "[0]",
+			wantContains:   "[\"0\"]",
 			wantHeaders:    http.Header(http.Header{"Content-Type": []string{"application/json"}, "Transfer-Encoding": []string{"chunked"}}),
 		},
 		{
@@ -46,7 +46,7 @@ func TestGetFibonacci(t *testing.T) {
 			method:         http.MethodGet,
 			url:            "/api/v1/fibonacci/2",
 			wantStatusCode: http.StatusOK,
-			wantContains:   "[0,1]",
+			wantContains:   "[\"0\",\"1\"]",
 			wantHeaders:    http.Header(http.Header{"Content-Type": []string{"application/json"}, "Transfer-Encoding": []string{"chunked"}}),
 		},
 		{
