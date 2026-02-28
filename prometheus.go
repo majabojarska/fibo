@@ -24,11 +24,12 @@ func promUrlRelabel(ctx *gin.Context) string {
 // from each request. Must be called before the monitored routes are registered.
 func SetupPromMiddleware(router *gin.Engine, address string, path string) {
 	prom := ginprometheus.NewWithConfig(ginprometheus.Config{
-		Subsystem: "gin",
+		Subsystem:          "gin",
+		DisableBodyReading: true,
 	})
 	prom.ReqCntURLLabelMappingFn = promUrlRelabel
-	prom.Use(router)
 
 	prom.MetricsPath = path
 	prom.SetListenAddress(address)
+	prom.Use(router)
 }
