@@ -74,6 +74,6 @@ func main() {
 
 	err = router.Run(apiListenAddrDefault)
 	if err != nil {
-		logger.Sugar().Error(err)
+		panic(err)
 	}
 }
