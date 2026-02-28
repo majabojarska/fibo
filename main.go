@@ -7,6 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 	ctrl "github.com/majabojarska/fibo/controller"
 	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
+	config "github.com/majabojarska/fibo/internal/config"
+	"github.com/spf13/viper"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
@@ -26,15 +28,13 @@ import (
 //	@host		localhost:8080
 //	@BasePath	/
 
-const (
-	apiListenAddrDefault     = ":8080"
-	metricsListenAddrDefault = ":9090"
-	metricsPathDefault       = "/metrics"
-)
-
 func setupMiddlewares(router *gin.Engine, logger *zap.Logger) {
-	SetupPromMiddleware(router, metricsListenAddrDefault, metricsPathDefault) // Must be before route setup
+	if viper.GetBool("metrics.enabled") {
+		// Must happen before API route setup
+		SetupPromMiddleware(router, viper.GetString("metrics.addr"), viper.GetString("metrics.path"))
+	}
 
+	// Zap integration
 	router.Use(ginZap.Ginzap(logger, time.RFC3339, true))
 	router.Use(ginZap.RecoveryWithZap(logger, true))
 }
@@ -52,7 +52,9 @@ func setupRoutes(router *gin.Engine) {
 
 	router.GET("/readyz", ctrl.GetReadyz)
 	router.GET("/livez", ctrl.GetLivez)
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	if viper.GetBool("docs.enabled") {
+		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 }
 
 func setupRouter(logger *zap.Logger) *gin.Engine {
@@ -65,14 +67,21 @@ func setupRouter(logger *zap.Logger) *gin.Engine {
 }
 
 func main() {
-	logger, err := zap.NewDevelopment() // TODO: Make this gated by FIBO_DEBUG once viper is in
-	if err != nil {
-		panic(err)
+	config.LoadConfig()
+
+	var logger *zap.Logger
+
+	if viper.GetBool("debug") {
+		gin.SetMode(gin.DebugMode)
+		logger = zap.Must(zap.NewDevelopment())
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+		logger = zap.Must(zap.NewProduction())
 	}
+	defer logger.Sync() // nolint:errcheck
 
 	router := setupRouter(logger)
-
-	err = router.Run(apiListenAddrDefault)
+	err := router.Run(viper.GetString("api.addr"))
 	if err != nil {
 		panic(err)
 	}
