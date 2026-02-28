@@ -7,12 +7,12 @@ services:
       - "8080:8080"
       - "9090:9090"
     # environment:
-    #   - FIBO_API_ADDR=":8080"
-    #   - FIBO_DOCS_ENABLED=true
-    #   - FIBO_METRICS_ENABLED=true
-    #   - FIBO_METRICS_ADDR=":9090"
-    #   - FIBO_METRICS_PATH="/metrics"
-    #   - FIBO_DEBUG=false
+    #   FIBO_API_ADDR: ":8080"
+    #   FIBO_DOCS_ENABLED: true
+    #   FIBO_METRICS_ENABLED: true
+    #   FIBO_METRICS_ADDR: ":9090"
+    #   FIBO_METRICS_PATH: "/metrics"
+    #   FIBO_DEBUG: false
     restart: unless-stopped
     deploy:
       resources:
