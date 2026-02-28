@@ -1,6 +1,6 @@
 # fibo
 
-## Getting Started
+## Quick Start
 
 ```sh
 docker compose up
