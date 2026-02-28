@@ -1,0 +1,15 @@
+# Git
+.git
+.gitignore
+.gitattributes
+.github/
+
+# Build, deps
+bin
+vendor
+
+# Non-swagger docs
+README*
+LICENSE*
+CONTRIBUTING*
+TODO*
