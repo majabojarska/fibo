@@ -19,7 +19,7 @@ jobs:
           go-version-file: "go.mod"
 
       - name: Install dependencies
-        run: go get .
+        run: go get -u -t -v ./...
 
       - name: Test with Go
         run: go test -v ./... -json > TestResults.json
