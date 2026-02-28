@@ -42,6 +42,22 @@ gin_request_duration_seconds_sum{code="200",method="GET",url="/api/v1/fibonacci/
 gin_request_duration_seconds_count{code="200",method="GET",url="/api/v1/fibonacci/:count"} 169
 ```
 
+## Configuration
+
+This API uses [Viper](https://github.com/spf13/viper) for configuration management.
+
+At the moment, configuration is possible through environment variables:
+
+| Name                 | Description                                | Type   | Default           |
+| -------------------- | ------------------------------------------ | ------ | ----------------- |
+| FIBO_API_ADDR        | REST API bind address                      | string | `":8080"`         |
+| FIBO_METRICS_ENABLED | Enables the Prometheus metrics server      | bool   | `true`            |
+| FIBO_METRICS_ADDR    | Metrics server bind address                | string | `":9090"`         |
+| FIBO_METRICS_PATH    | Metrics server base URL                    | string | `"/metrics"`      |
+| FIBO_DOCS_ENABLED    | Enables the REST API docs server (Swagger) | bool   | `true`            |
+| FIBO_DOCS_PATH       | Docs server base URL                       | string | `"/swagger/*any"` |
+| FIBO_DEBUG           | Enables debug mode (Gin, Zap)              | bool   | `false`           |
+
 ## Development
 
 See [DEVELOPMENT.md](./DEVELOPMENT.md)
