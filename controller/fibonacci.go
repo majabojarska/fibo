@@ -48,7 +48,6 @@ func writeFibo(writer gin.ResponseWriter, wantCount int) error {
 	if _, err := writer.WriteString("["); err != nil {
 		return err
 	}
-	writer.(http.Flusher).Flush()
 
 	sentCount := 0
 	for fiboVal := range fibonacci.Fibonacci(wantCount) {
