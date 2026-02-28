@@ -53,10 +53,7 @@ func setupRoutes(router *gin.Engine) {
 	router.GET("/readyz", ctrl.GetReadyz)
 	router.GET("/livez", ctrl.GetLivez)
 	if viper.GetBool("docs.enabled") {
-		router.GET(
-			viper.GetString("docs.path"),
-			ginSwagger.WrapHandler(swaggerFiles.Handler),
-		)
+		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 }
 
