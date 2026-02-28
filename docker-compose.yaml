@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    environment: # TODO: Add viper config here
+      - GIN_MODE=release
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 128M
