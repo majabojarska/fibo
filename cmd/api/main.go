@@ -8,6 +8,7 @@ import (
 	ctrl "github.com/majabojarska/fibo/controller"
 	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
 	config "github.com/majabojarska/fibo/internal/config"
+	middleware "github.com/majabojarska/fibo/internal/middleware"
 	"github.com/spf13/viper"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -31,7 +32,7 @@ import (
 func setupMiddlewares(router *gin.Engine, logger *zap.Logger) {
 	if viper.GetBool("metrics.enabled") {
 		// Must happen before API route setup
-		SetupPromMiddleware(router, viper.GetString("metrics.addr"), viper.GetString("metrics.path"))
+		middleware.SetupPromMiddleware(router, viper.GetString("metrics.addr"), viper.GetString("metrics.path"))
 	}
 
 	// Zap integration
