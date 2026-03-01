@@ -46,6 +46,9 @@ jobs:
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
 
+      - name: Swag fmt
+        run: swag fmt
+
       - name: Assert 'swag fmt' made no diff
         run: |
           if [[ `git status --porcelain` ]]; then
