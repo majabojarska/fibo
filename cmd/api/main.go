@@ -29,7 +29,8 @@ func main() {
 
 	var logger *zap.Logger
 
-	if viper.GetBool("debug") {
+	isDebug := viper.GetBool("debug")
+	if isDebug {
 		gin.SetMode(gin.DebugMode)
 		logger = zap.Must(zap.NewDevelopment())
 	} else {
@@ -40,7 +41,7 @@ func main() {
 
 	router := routes.SetupRouter(logger)
 
-	if viper.GetBool("pprof.enabled") {
+	if isDebug {
 		pprof.Register(router)
 	}
 
