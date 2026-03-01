@@ -59,7 +59,39 @@ The Prometheus UI is available at `localhost:9090`.
 
 This API uses [Viper](https://github.com/spf13/viper) for configuration management.
 
-At the moment, configuration is possible through environment variables:
+- Configuration is possible both through a config file, and environment variables.
+- Defaults are available for every configuration item.
+- The config file takes precedence over environment variables, whenever the same config item is defined through both.
+- The config file location is non-configurable at the moment, and evaluates to the `$PWD` of the process.
+
+### Config file
+
+See [./fibo.yaml](./fibo.yaml) for reference.
+
+Example:
+
+```yaml
+api:
+  addr: ":8080"
+
+docs:
+  enabled: true
+
+logging:
+  level: "info"
+
+metrics:
+  enabled: true
+  addr: ":9091"
+  path: "/metrics"
+
+debug:
+  enabled: true
+```
+
+See the [Zap documentation](https://pkg.go.dev/go.uber.org/zap#AtomicLevel.UnmarshalText) for a reference of Zap log level string identifiers.
+
+### Environment variables
 
 | Name                 | Description                                  | Type   | Default      |
 | -------------------- | -------------------------------------------- | ------ | ------------ |
