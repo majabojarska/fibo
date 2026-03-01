@@ -37,7 +37,7 @@ pre-commit install
 (Re)build the Swagger documentation with:
 
 ```sh
-swag init
+make docs
 ```
 
 Start the API in live-reload mode:
