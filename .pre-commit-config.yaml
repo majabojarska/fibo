@@ -29,9 +29,17 @@ repos:
         require_serial: true
         pass_filenames: false
 
-      - id: go-test
+      - id: swag-init
         name: Swag init
         entry: swag init --dir ./cmd/api
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit, pre-push]
+
+      - id: swag-fmt
+        name: Swag fmt
+        entry: swag fmt
         language: system
         pass_filenames: false
         always_run: true
