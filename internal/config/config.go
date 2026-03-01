@@ -12,6 +12,7 @@ func setDefaults() {
 	viper.SetDefault("metrics.enabled", true)
 	viper.SetDefault("metrics.addr", ":8081")
 	viper.SetDefault("metrics.path", "/metrics")
+	viper.SetDefault("pprof.enabled", true)
 	viper.SetDefault("debug", false)
 }
 
