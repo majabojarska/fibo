@@ -8,7 +8,7 @@ tmp_dir = "tmp"
 [build]
 args_bin = []
 bin = "./tmp/api"
-cmd = "swag init --dir ./cmd/api && go build -o ./tmp/api ./cmd/api"
+cmd = "swag init --dir ./cmd/api --parseInternal && go build -o ./tmp/api ./cmd/api"
 delay = 1000
 entrypoint = ["./tmp/api"]
 exclude_dir = ["assets", "tmp", "vendor", "testdata", "docs"]

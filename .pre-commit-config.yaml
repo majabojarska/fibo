@@ -31,7 +31,7 @@ repos:
 
       - id: swag-init
         name: Swag init
-        entry: swag init --dir ./cmd/api
+        entry: swag init --dir ./cmd/api --parseInternal
         language: system
         pass_filenames: false
         always_run: true
