@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
 	config "github.com/majabojarska/fibo/internal/config"
@@ -28,7 +29,8 @@ func main() {
 
 	var logger *zap.Logger
 
-	if viper.GetBool("debug") {
+	isDebug := viper.GetBool("debug")
+	if isDebug {
 		gin.SetMode(gin.DebugMode)
 		logger = zap.Must(zap.NewDevelopment())
 	} else {
@@ -38,6 +40,11 @@ func main() {
 	defer logger.Sync() // nolint:errcheck
 
 	router := routes.SetupRouter(logger)
+
+	if isDebug {
+		pprof.Register(router)
+	}
+
 	err := router.Run(viper.GetString("api.addr"))
 	if err != nil {
 		panic(err)

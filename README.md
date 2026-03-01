@@ -52,14 +52,14 @@ This API uses [Viper](https://github.com/spf13/viper) for configuration manageme
 
 At the moment, configuration is possible through environment variables:
 
-| Name                 | Description                                | Type   | Default      |
-| -------------------- | ------------------------------------------ | ------ | ------------ |
-| FIBO_API_ADDR        | REST API bind address                      | string | `":8080"`    |
-| FIBO_DOCS_ENABLED    | Enables the REST API docs server (Swagger) | bool   | `true`       |
-| FIBO_METRICS_ENABLED | Enables the Prometheus metrics server      | bool   | `true`       |
-| FIBO_METRICS_ADDR    | Metrics server bind address                | string | `":8081"`    |
-| FIBO_METRICS_PATH    | Metrics server base URL                    | string | `"/metrics"` |
-| FIBO_DEBUG           | Enables debug mode (Gin, Zap)              | bool   | `false`      |
+| Name                 | Description                                  | Type   | Default      |
+| -------------------- | -------------------------------------------- | ------ | ------------ |
+| FIBO_API_ADDR        | REST API bind address                        | string | `":8080"`    |
+| FIBO_DOCS_ENABLED    | Enables the REST API docs server (Swagger)   | bool   | `true`       |
+| FIBO_METRICS_ENABLED | Enables the Prometheus metrics server        | bool   | `true`       |
+| FIBO_METRICS_ADDR    | Metrics server bind address                  | string | `":8081"`    |
+| FIBO_METRICS_PATH    | Metrics server base URL                      | string | `"/metrics"` |
+| FIBO_DEBUG           | Enables debug mode (Gin, Zap), starts pprof. | bool   | `false`      |
 
 ## Development
 
