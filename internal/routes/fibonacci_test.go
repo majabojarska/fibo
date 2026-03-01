@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
+	fiboConfig "github.com/majabojarska/fibo/internal/config"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 )
@@ -14,7 +14,11 @@ func TestGetFibonacci(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	router := SetupRouter(logger)
+	config, err := fiboConfig.LoadConfig()
+	if err != nil {
+		t.Error(err)
+	}
+	router := SetupRouter(logger, config)
 
 	tests := []struct {
 		name           string

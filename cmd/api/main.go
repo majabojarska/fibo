@@ -1,36 +1,39 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/gin-contrib/pprof"
-	config "github.com/majabojarska/fibo/internal/config"
+	"github.com/gin-gonic/gin"
+	fiboConfig "github.com/majabojarska/fibo/internal/config"
 	"github.com/majabojarska/fibo/internal/routes"
-	"github.com/spf13/viper"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 )
 
 func main() {
-	config, err := config.LoadConfig()
+	config, err := fiboConfig.LoadConfig()
 	if err != nil {
 		panic(err)
 	}
+	fmt.Printf("config: %+v", config)
 
-	logger := zap.New(zapcore.NewCore())
-
-	if isDebug {
+	var logger *zap.Logger
+	if config.Debug.Enabled {
+		gin.SetMode(gin.DebugMode)
 		logger = zap.Must(zap.NewDevelopment())
 	} else {
+		gin.SetMode(gin.ReleaseMode)
 		logger = zap.Must(zap.NewProduction())
 	}
 	defer logger.Sync() // nolint:errcheck
 
-	router := routes.SetupRouter(logger)
+	router := routes.SetupRouter(logger, config)
 
-	if isDebug {
+	if config.Debug.Enabled {
 		pprof.Register(router)
 	}
 
-	err := router.Run(viper.GetString("api.addr"))
+	err = router.Run(config.Api.Addr)
 	if err != nil {
 		panic(err)
 	}

@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	fiboConfig "github.com/majabojarska/fibo/internal/config"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 )
@@ -17,7 +18,12 @@ func TestHealthchecks(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	router := SetupRouter(logger)
+
+	config, err := fiboConfig.LoadConfig()
+	if err != nil {
+		t.Error(err)
+	}
+	router := SetupRouter(logger, config)
 
 	tests := []struct {
 		name           string

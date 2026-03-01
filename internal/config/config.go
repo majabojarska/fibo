@@ -17,7 +17,7 @@ type Config struct {
 	Docs    DocsConfig
 	Logging LoggingConfig
 	Metrics MetricsConfig
-	Pprof   PprofConfig
+	Debug   DebugConfig
 }
 
 type ApiConfig struct {
@@ -39,22 +39,18 @@ type MetricsConfig struct {
 	Path    string
 }
 
-type PprofConfig struct {
+type DebugConfig struct {
 	Enabled bool
 }
 
-func setDefaults() {
-	viper.SetDefault("api.addr", ":8080")
-
-	viper.SetDefault("docs.enabled", true)
-
-	viper.SetDefault("logging.level", "info")
-
-	viper.SetDefault("metrics.enabled", true)
-	viper.SetDefault("metrics.addr", ":8081")
-	viper.SetDefault("metrics.path", "/metrics")
-
-	viper.SetDefault("pprof.enabled", false)
+func setDefaults(v *viper.Viper) {
+	v.SetDefault("api.addr", ":8080")
+	v.SetDefault("docs.enabled", true)
+	v.SetDefault("logging.level", "info")
+	v.SetDefault("metrics.enabled", true)
+	v.SetDefault("metrics.addr", ":8081")
+	v.SetDefault("metrics.path", "/metrics")
+	v.SetDefault("debug.enabled", false)
 }
 
 func parseConfig(v *viper.Viper) (*Config, error) {
@@ -70,14 +66,14 @@ func parseConfig(v *viper.Viper) (*Config, error) {
 func LoadConfig() (*Config, error) {
 	v := viper.New()
 
+	setDefaults(v)
+
 	v.SetConfigName(configName) // TODO: Make this path configurable with a flag
 	v.AddConfigPath(configPath)
 
 	v.SetEnvPrefix(envPrefix)
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	v.AutomaticEnv()
-
-	setDefaults()
 
 	// Load config file
 	if err := v.ReadInConfig(); err != nil {
