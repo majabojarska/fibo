@@ -25,16 +25,16 @@ import (
 //	@BasePath	/
 
 func main() {
-	config.LoadConfig()
+	config, err := config.LoadConfig()
+	if err != nil {
+		panic(err)
+	}
 
-	var logger *zap.Logger
+	logger := zap.New(zapcore.NewCore())
 
-	isDebug := viper.GetBool("debug")
 	if isDebug {
-		gin.SetMode(gin.DebugMode)
 		logger = zap.Must(zap.NewDevelopment())
 	} else {
-		gin.SetMode(gin.ReleaseMode)
 		logger = zap.Must(zap.NewProduction())
 	}
 	defer logger.Sync() // nolint:errcheck
