@@ -1,0 +1,16 @@
+api:
+  addr: ":8080"
+
+docs:
+  enabled: true
+
+logging:
+  level: "info"
+
+metrics:
+  enabled: true
+  addr: ":9091"
+  path: "/metrics"
+
+debug:
+  enabled: true
