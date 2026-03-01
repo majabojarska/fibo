@@ -7,6 +7,23 @@ on:
   pull_request:
 
 jobs:
+  docs:
+    name: Swag docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: "go.mod"
+
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
+
+      - name: Swag init
+        run: swag init --dir ./cmd/api
+
   docker:
     name: Docker image
     runs-on: ubuntu-latest
