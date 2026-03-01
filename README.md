@@ -42,6 +42,10 @@ gin_request_duration_seconds_sum{code="200",method="GET",url="/api/v1/fibonacci/
 gin_request_duration_seconds_count{code="200",method="GET",url="/api/v1/fibonacci/:count"} 169
 ```
 
+The Prometheus UI is available at `localhost:9090`.
+
+![Prometheus UI preview](./static/img/prometheus.webp)
+
 ## Configuration
 
 This API uses [Viper](https://github.com/spf13/viper) for configuration management.
