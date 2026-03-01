@@ -8,8 +8,8 @@ import (
 
 const (
 	envPrefix  = "FIBO"
-	configName = "fibo.yaml"
-	configPath = "."
+	configName = "fibo"
+	configType = "yaml"
 )
 
 type Config struct {
@@ -48,7 +48,7 @@ func setDefaults(v *viper.Viper) {
 	v.SetDefault("docs.enabled", true)
 	v.SetDefault("logging.level", "info")
 	v.SetDefault("metrics.enabled", true)
-	v.SetDefault("metrics.addr", ":8081")
+	v.SetDefault("metrics.addr", ":9091")
 	v.SetDefault("metrics.path", "/metrics")
 	v.SetDefault("debug.enabled", false)
 }
@@ -68,8 +68,10 @@ func LoadConfig() (*Config, error) {
 
 	setDefaults(v)
 
+	v.AddConfigPath("$HOME/.appname")
+	v.AddConfigPath(".")
 	v.SetConfigName(configName) // TODO: Make this path configurable with a flag
-	v.AddConfigPath(configPath)
+	v.SetConfigType(configType)
 
 	v.SetEnvPrefix(envPrefix)
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
