@@ -6,12 +6,12 @@ services:
       dockerfile: ./docker/Dockerfile
     ports:
       - "8080:8080"
-      - "8081:8081"
+      - "9091:9091"
     # environment:
     #   FIBO_API_ADDR: ":8080"
     #   FIBO_DOCS_ENABLED: true
     #   FIBO_METRICS_ENABLED: true
-    #   FIBO_METRICS_ADDR: ":8081"
+    #   FIBO_METRICS_ADDR: ":9091"
     #   FIBO_METRICS_PATH: "/metrics"
     #   FIBO_DEBUG: false
     restart: unless-stopped
