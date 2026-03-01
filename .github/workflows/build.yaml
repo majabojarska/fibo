@@ -30,6 +30,8 @@ jobs:
     env:
       PATH_COMPOSE_FILE: "./docker-compose.yaml"
     steps:
+      - uses: actions/checkout@v5
+
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@v1
 
