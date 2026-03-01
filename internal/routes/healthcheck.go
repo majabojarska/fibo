@@ -8,12 +8,12 @@ import (
 
 // GetReadyz godoc
 //
-//	@Summary		Get readiness
-//	@ID				get-readyz
-//	@Tags			healthcheck
-//	@Success		200	{object}		object
-//	@Failure		500	{object}	object
-//	@Router		  /readyz [get]
+//	@Summary	Get readiness
+//	@ID			get-readyz
+//	@Tags		healthcheck
+//	@Success	200	{object}	object
+//	@Failure	500	{object}	object
+//	@Router		/readyz [get]
 func GetReadyz(ctx *gin.Context) {
 	writer := ctx.Writer
 	writer.WriteHeader(http.StatusOK)
@@ -21,12 +21,12 @@ func GetReadyz(ctx *gin.Context) {
 
 // GetLivez godoc
 //
-//	@Summary		Get liveness
-//	@ID				get-livez
-//	@Tags			healthcheck
-//	@Success		200	{object}		object
-//	@Failure		500	{object}	object
-//	@Router		  /livez [get]
+//	@Summary	Get liveness
+//	@ID			get-livez
+//	@Tags		healthcheck
+//	@Success	200	{object}	object
+//	@Failure	500	{object}	object
+//	@Router		/livez [get]
 func GetLivez(ctx *gin.Context) {
 	writer := ctx.Writer
 	writer.WriteHeader(http.StatusOK)
