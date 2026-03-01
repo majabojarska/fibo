@@ -68,7 +68,7 @@ func LoadConfig() (*Config, error) {
 
 	setDefaults(v)
 
-	v.AddConfigPath("$HOME/.appname")
+	v.AddConfigPath("$HOME/.fibo")
 	v.AddConfigPath(".")
 	v.SetConfigName(configName) // TODO: Make this path configurable with a flag
 	v.SetConfigType(configType)
