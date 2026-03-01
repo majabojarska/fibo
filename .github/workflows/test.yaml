@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    name: Go test
     runs-on: ubuntu-latest
 
     steps:
