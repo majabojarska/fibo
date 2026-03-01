@@ -5,6 +5,7 @@ import (
 
 	ginZap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
+	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
 	"github.com/majabojarska/fibo/internal/middleware"
 	"github.com/spf13/viper"
 	swaggerFiles "github.com/swaggo/files"
@@ -22,6 +23,20 @@ func setupMiddlewares(router *gin.Engine, logger *zap.Logger) {
 	router.Use(ginZap.Ginzap(logger, time.RFC3339, true))
 	router.Use(ginZap.RecoveryWithZap(logger, true))
 }
+
+//	@title			Fibo
+//	@version		1.0
+//	@description	Fibonacci sequence REST API
+
+//	@contact.name	Maja Bojarska
+//	@contact.url	https://github.com/majabojarska/fibo
+//	@contact.email	majabojarska98@gmail.com
+
+//	@license.name	MIT License
+//	@license.url	https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme
+
+//	@host		localhost:8080
+//	@BasePath	/
 
 func setupRoutes(router *gin.Engine) {
 	groupV1 := router.Group("/api/v1")
