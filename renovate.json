@@ -1,18 +1,38 @@
 {
-  "extends": ["config:recommended"],
-  "enabledManagers": ["gomod"],
+  "extends": [
+    "config:recommended",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "enabledManagers": [
+    "gomod",
+    "ci",
+    "docker"
+  ],
   "dependencyDashboard": false,
-  "ignorePaths": ["vendor/**"],
-  "labels": ["renovate"],
+  "ignorePaths": [
+    "vendor/**"
+  ],
+  "labels": [
+    "renovate"
+  ],
   "packageRules": [
     {
-      "matchManagers": ["gomod"],
-      "matchUpdateTypes": ["patch", "minor"],
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
       "automerge": false
     },
     {
-      "matchManagers": ["gomod"],
-      "matchUpdateTypes": ["major"],
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "groupName": "major Go module updates",
       "automerge": false
     }
