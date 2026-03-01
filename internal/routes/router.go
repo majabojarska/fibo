@@ -5,6 +5,7 @@ import (
 
 	ginZap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
+	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
 	"github.com/majabojarska/fibo/internal/middleware"
 	"github.com/spf13/viper"
 	swaggerFiles "github.com/swaggo/files"
