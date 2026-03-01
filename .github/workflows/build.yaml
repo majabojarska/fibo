@@ -13,13 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: "go.mod"
-
-      - name: Install dependencies
-        run: go get -u -t -v ./...
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
 
       - name: Swag init
         run: swag init --dir ./cmd/api
