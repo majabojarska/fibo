@@ -6,6 +6,12 @@ import (
 	"github.com/spf13/viper"
 )
 
+const (
+	envPrefix  = "FIBO"
+	configName = "fibo.yaml"
+	configPath = "."
+)
+
 type Config struct {
 	Api     ApiConfig
 	Docs    DocsConfig
@@ -64,10 +70,10 @@ func parseConfig(v *viper.Viper) (*Config, error) {
 func LoadConfig() (*Config, error) {
 	v := viper.New()
 
-	v.SetConfigName("fibo.yaml") // TODO: Make this path configurable with a flag
-	v.AddConfigPath(".")
+	v.SetConfigName(configName) // TODO: Make this path configurable with a flag
+	v.AddConfigPath(configPath)
 
-	v.SetEnvPrefix("FIBO")
+	v.SetEnvPrefix(envPrefix)
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	v.AutomaticEnv()
 
