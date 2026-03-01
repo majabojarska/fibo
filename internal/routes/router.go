@@ -24,6 +24,20 @@ func setupMiddlewares(router *gin.Engine, logger *zap.Logger) {
 	router.Use(ginZap.RecoveryWithZap(logger, true))
 }
 
+//	@title			Fibo
+//	@version		1.0
+//	@description	Fibonacci sequence REST API
+
+//	@contact.name	Maja Bojarska
+//	@contact.url	https://github.com/majabojarska/fibo
+//	@contact.email	majabojarska98@gmail.com
+
+//	@license.name	MIT License
+//	@license.url	https://github.com/majabojarska/fibo?tab=MIT-1-ov-file#readme
+
+//	@host		localhost:8080
+//	@BasePath	/
+
 func setupRoutes(router *gin.Engine) {
 	groupV1 := router.Group("/api/v1")
 	{

@@ -29,17 +29,9 @@ repos:
         require_serial: true
         pass_filenames: false
 
-      - id: swag-init
+      - id: make-docs
         name: Swag init
-        entry: swag init --dir ./cmd/api --parseInternal
-        language: system
-        pass_filenames: false
-        always_run: true
-        stages: [pre-commit, pre-push]
-
-      - id: swag-fmt
-        name: Swag fmt
-        entry: swag fmt
+        entry: make docs
         language: system
         pass_filenames: false
         always_run: true

@@ -22,7 +22,7 @@ jobs:
         run: go install github.com/swaggo/swag/cmd/swag@latest
 
       - name: Swag init
-        run: swag init --dir ./cmd/api --parseInternal
+        run: make docs
 
   docker:
     name: Docker build and compose up
