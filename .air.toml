@@ -7,10 +7,10 @@ tmp_dir = "tmp"
 
 [build]
 args_bin = []
-bin = "./tmp/main"
-cmd = "swag init && go build -o ./tmp/main ."
+bin = "./tmp/api"
+cmd = "swag init --dir ./cmd/api && go build -o ./tmp/api ./cmd/api"
 delay = 1000
-entrypoint = ["./tmp/main"]
+entrypoint = ["./tmp/api"]
 exclude_dir = ["assets", "tmp", "vendor", "testdata", "docs"]
 exclude_file = []
 exclude_regex = ["_test.go"]

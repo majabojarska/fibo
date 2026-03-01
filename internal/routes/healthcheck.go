@@ -1,4 +1,4 @@
-package controller
+package routes
 
 import (
 	"net/http"
@@ -14,7 +14,7 @@ import (
 //	@Success		200	{object}		object
 //	@Failure		500	{object}	object
 //	@Router		  /readyz [get]
-func (c *Controller) GetReadyz(ctx *gin.Context) {
+func GetReadyz(ctx *gin.Context) {
 	writer := ctx.Writer
 	writer.WriteHeader(http.StatusOK)
 }
@@ -27,7 +27,7 @@ func (c *Controller) GetReadyz(ctx *gin.Context) {
 //	@Success		200	{object}		object
 //	@Failure		500	{object}	object
 //	@Router		  /livez [get]
-func (c *Controller) GetLivez(ctx *gin.Context) {
+func GetLivez(ctx *gin.Context) {
 	writer := ctx.Writer
 	writer.WriteHeader(http.StatusOK)
 }
