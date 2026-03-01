@@ -18,9 +18,26 @@ jobs:
           # History is required by gitleaks
           fetch-depth: 0
 
-      - uses: actions/setup-go@v6
+      - name: Setup Go
+        uses: actions/setup-go@v6
         with:
-          go-version: stable
+          go-version-file: "go.mod"
+
+      - name: Install dependencies
+        run: go get -u -t -v ./...
+
+      - name: Swag fmt
+        run: swag fmt
+
+      - name: Assert 'swag fmt' made no diff
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            git diff
+            echo "Swag fmt generated a diff. Run 'swag fmt' locally to correct swag annotation formatting."
+            exit 1
+          else
+            echo "Swag fmt made no changes"
+          fi
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v9
