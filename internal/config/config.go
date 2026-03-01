@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/spf13/viper"
@@ -19,7 +18,6 @@ func setDefaults() {
 func LoadConfig() {
 	setDefaults()
 
-	fmt.Printf("metrics.addr: %s", viper.GetString("metrics.addr"))
 	viper.AutomaticEnv()
 	viper.SetEnvPrefix("FIBO")
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
