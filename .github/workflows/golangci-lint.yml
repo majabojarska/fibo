@@ -18,16 +18,35 @@ jobs:
           # History is required by gitleaks
           fetch-depth: 0
 
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.10.1
+
+  gitleaks:
+    name: Gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  swag:
+    name: Swag fmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # History is required by gitleaks
+          fetch-depth: 0
+
       - name: Setup Go
         uses: actions/setup-go@v6
         with:
           go-version-file: "go.mod"
 
-      - name: Install dependencies
-        run: go get -u -t -v ./...
-
-      - name: Swag fmt
-        run: swag fmt
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
 
       - name: Assert 'swag fmt' made no diff
         run: |
@@ -38,12 +57,3 @@ jobs:
           else
             echo "Swag fmt made no changes"
           fi
-
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v9
-        with:
-          version: v2.10.1
-
-      - uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
