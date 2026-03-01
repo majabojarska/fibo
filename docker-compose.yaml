@@ -1,16 +1,17 @@
 services:
   api:
+    container_name: api
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./docker/Dockerfile
     ports:
       - "8080:8080"
-      - "9090:9090"
+      - "8081:8081"
     # environment:
     #   FIBO_API_ADDR: ":8080"
     #   FIBO_DOCS_ENABLED: true
     #   FIBO_METRICS_ENABLED: true
-    #   FIBO_METRICS_ADDR: ":9090"
+    #   FIBO_METRICS_ADDR: ":8081"
     #   FIBO_METRICS_PATH: "/metrics"
     #   FIBO_DEBUG: false
     restart: unless-stopped
@@ -18,3 +19,18 @@ services:
       resources:
         limits:
           memory: 128M
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    restart: always
+    volumes:
+      - ./docker/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yaml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=20d"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+    ports:
+      - "9090:9090"
