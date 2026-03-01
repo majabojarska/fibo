@@ -4,9 +4,7 @@
     "helpers:pinGitHubActionDigests"
   ],
   "enabledManagers": [
-    "gomod",
-    "ci",
-    "docker"
+    "gomod"
   ],
   "dependencyDashboard": false,
   "ignorePaths": [
