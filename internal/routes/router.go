@@ -1,11 +1,13 @@
 package routes
 
 import (
+	"net/url"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	ginZap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
-	_ "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
+	swaggerDocs "github.com/majabojarska/fibo/docs" // Swaggo requires this to be imported
 	fiboConfig "github.com/majabojarska/fibo/internal/config"
 	"github.com/majabojarska/fibo/internal/middleware"
 	swaggerFiles "github.com/swaggo/files"
@@ -23,6 +25,11 @@ func setupMiddlewares(router *gin.Engine, logger *zap.Logger, config *fiboConfig
 	// Zap integration
 	router.Use(ginZap.Ginzap(logger, time.RFC3339, true))
 	router.Use(ginZap.RecoveryWithZap(logger, true))
+
+	// CORS, of course
+	router.Use(cors.New(cors.Config{
+		AllowOrigins: config.Api.AllowOrigins,
+	}))
 }
 
 //	@title			Fibo
@@ -39,7 +46,7 @@ func setupMiddlewares(router *gin.Engine, logger *zap.Logger, config *fiboConfig
 //	@host		localhost:8080
 //	@BasePath	/
 
-func setupRoutes(router *gin.Engine, logger *zap.Logger, config *fiboConfig.Config) {
+func setupRoutes(router *gin.Engine, logger *zap.Logger, config *fiboConfig.Config) error {
 	groupV1 := router.Group("/api/v1")
 	{
 		groupFibonacci := groupV1.Group("/fibonacci")
@@ -55,13 +62,33 @@ func setupRoutes(router *gin.Engine, logger *zap.Logger, config *fiboConfig.Conf
 		logger.Info("Docs are enabled, registering Swagger route.")
 		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
+	return nil
 }
 
-func SetupRouter(logger *zap.Logger, config *fiboConfig.Config) *gin.Engine {
+func setupSwagger(config *fiboConfig.Config) error {
+	parsedURL, err := url.Parse(config.Api.RootURL)
+	if err != nil {
+		return err
+	}
+
+	swaggerDocs.SwaggerInfo.Host = parsedURL.Host
+	swaggerDocs.SwaggerInfo.Schemes = []string{parsedURL.Scheme}
+
+	return nil
+}
+
+func SetupRouter(logger *zap.Logger, config *fiboConfig.Config) (*gin.Engine, error) {
 	router := gin.Default()
 
 	setupMiddlewares(router, logger, config)
-	setupRoutes(router, logger, config)
 
-	return router
+	if err := setupSwagger(config); err != nil {
+		return nil, err
+	}
+
+	if err := setupRoutes(router, logger, config); err != nil {
+		return nil, err
+	}
+
+	return router, nil
 }

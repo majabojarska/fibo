@@ -35,7 +35,10 @@ func TestGetFibonacci(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	router := SetupRouter(logger, config)
+	router, err := SetupRouter(logger, config)
+	if err != nil {
+		t.Error(err)
+	}
 
 	tests := []struct {
 		name           string
