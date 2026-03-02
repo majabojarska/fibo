@@ -7,9 +7,11 @@ on:
   pull_request:
 
 jobs:
-  docs:
-    name: Swag docs
+  docker:
+    name: Docker build and compose up
     runs-on: ubuntu-latest
+    env:
+      PATH_COMPOSE_FILE: "./docker-compose.yaml"
     steps:
       - uses: actions/checkout@v5
 
@@ -21,22 +23,17 @@ jobs:
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
 
-      - name: Swag init
-        run: make docs
-
-  docker:
-    name: Docker build and compose up
-    runs-on: ubuntu-latest
-    env:
-      PATH_COMPOSE_FILE: "./docker-compose.yaml"
-    steps:
-      - uses: actions/checkout@v5
-
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@v1
 
-      - name: Compose build
-        run: docker compose --file "${PATH_COMPOSE_FILE}" build
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: make build-docker-image
 
       - name: Compose up
         run: docker compose --file "${PATH_COMPOSE_FILE}" up -d --wait
