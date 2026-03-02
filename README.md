@@ -23,6 +23,8 @@ To query (stream) a Fibonacci sequence:
 curl --silent --verbose --no-buffer --header "Accept: text/event-stream" localhost:8080/api/v1/fibonacci/10/stream
 ```
 
+Here's a Fibonacci stream example with `api.event_delay: 200ms`, to better demonstrate the principle of operation.
+
 [![asciicast](https://asciinema.org/a/wzkuKRlfRgfGKEvW.svg)](https://asciinema.org/a/wzkuKRlfRgfGKEvW)
 
 Swagger API docs can be accessed at http://localhost:8080/swagger/index.html
