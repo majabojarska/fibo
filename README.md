@@ -75,7 +75,7 @@ Example:
 ```yaml
 api:
   addr: ":8080"
-  event_delay: 0.0
+  event_delay: 0s
 
 docs:
   enabled: true
@@ -96,16 +96,16 @@ See the [Zap documentation](https://pkg.go.dev/go.uber.org/zap#AtomicLevel.Unmar
 
 ### Environment variables
 
-| Name                 | Description                                   | Type   | Default      |
-| -------------------- | --------------------------------------------- | ------ | ------------ |
-| FIBO_API_ADDR        | REST API bind address                         | string | `":8080"`    |
-| FIBO_API_EVENT_DELAY | Time to wait between subsequent stream events | float  | 0.0          |
-| FIBO_DOCS_ENABLED    | Enables the REST API docs server (Swagger)    | bool   | `true`       |
-| FIBO_METRICS_ENABLED | Enables the Prometheus metrics server         | bool   | `true`       |
-| FIBO_METRICS_ADDR    | Metrics server bind address                   | string | `":9091"`    |
-| FIBO_METRICS_PATH    | Metrics server base URL                       | string | `"/metrics"` |
-| FIBO_LOGGING_LEVEL   | Log level                                     | string | "info"       |
-| FIBO_DEBUG           | Enables debug mode (Gin, Zap), starts pprof.  | bool   | `false`      |
+| Name                 | Description                                   | Type                                                       | Default      |
+| -------------------- | --------------------------------------------- | ---------------------------------------------------------- | ------------ |
+| FIBO_API_ADDR        | REST API bind address                         | string                                                     | `":8080"`    |
+| FIBO_API_EVENT_DELAY | Time to wait between subsequent stream events | string ([Duration](https://pkg.go.dev/time#ParseDuration)) | 0s           |
+| FIBO_DOCS_ENABLED    | Enables the REST API docs server (Swagger)    | bool                                                       | `true`       |
+| FIBO_METRICS_ENABLED | Enables the Prometheus metrics server         | bool                                                       | `true`       |
+| FIBO_METRICS_ADDR    | Metrics server bind address                   | string                                                     | `":9091"`    |
+| FIBO_METRICS_PATH    | Metrics server base URL                       | string                                                     | `"/metrics"` |
+| FIBO_LOGGING_LEVEL   | Log level                                     | string                                                     | "info"       |
+| FIBO_DEBUG           | Enables debug mode (Gin, Zap), starts pprof.  | bool                                                       | `false`      |
 
 ## Development
 
