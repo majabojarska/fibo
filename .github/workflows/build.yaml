@@ -35,8 +35,8 @@ jobs:
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@v1
 
-      - name: Compose build
-        run: docker compose --file "${PATH_COMPOSE_FILE}" build
+      - name: Build Docker image
+        run: make build-docker-image
 
       - name: Compose up
         run: docker compose --file "${PATH_COMPOSE_FILE}" up -d --wait
