@@ -13,7 +13,7 @@ import (
 
 // TestFibonacciExhaustSeq tests sequence generation correctness (content, length),
 // by exhausting all items from the sequence.
-func TestFibonacciExhaustSeq(t *testing.T) {
+func TestFibonacciSeqExhaustSeq(t *testing.T) {
 	tests := []struct {
 		wantCount int
 		wantItems []int // Use int for easier maintenance
@@ -37,7 +37,7 @@ func TestFibonacciExhaustSeq(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(fmt.Sprintf("Fibonacci %d items", tt.wantCount), func(t *testing.T) {
-			fiboIter := fibonacci.Fibonacci(tt.wantCount)
+			fiboIter := fibonacci.FibonacciSeq(tt.wantCount)
 			got := slices.Collect(fiboIter)
 
 			var wantItemsBigInt []*big.Int
@@ -56,7 +56,7 @@ func TestFibonacciExhaustSeq(t *testing.T) {
 	}
 }
 
-func TestFibonacci64bitOverflow(t *testing.T) {
+func TestFibonacciSeq64bitOverflow(t *testing.T) {
 	tests := []struct {
 		itemNum       int
 		wantValuesStr string
@@ -78,7 +78,7 @@ func TestFibonacci64bitOverflow(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(fmt.Sprintf("Fibonacci item %d", tt.itemNum), func(t *testing.T) {
 			var last *big.Int
-			for last = range fibonacci.Fibonacci(tt.itemNum) {
+			for last = range fibonacci.FibonacciSeq(tt.itemNum) {
 			}
 
 			if last.String() != tt.wantValuesStr {
@@ -90,7 +90,7 @@ func TestFibonacci64bitOverflow(t *testing.T) {
 
 // TestFibonacciStopEarly tests compatibility with range loops and iterator adapters,
 // by calling stop early, before the sequence is exhausted.
-func TestFibonacciStopEarly(t *testing.T) {
+func TestFibonacciSeqStopEarly(t *testing.T) {
 	tests := []struct {
 		wantCount      int
 		stopAfterCount int
@@ -122,7 +122,7 @@ func TestFibonacciStopEarly(t *testing.T) {
 				t.Errorf("wantCount (%d) must be equal to, or greater than, stopAfterCount (%d)", tt.wantCount, tt.stopAfterCount)
 			}
 
-			fiboSeq := fibonacci.Fibonacci(tt.wantCount)
+			fiboSeq := fibonacci.FibonacciSeq(tt.wantCount)
 
 			// Convert to a pull iterator to facilitate fetching individual items.
 			next, stop := iter.Pull(fiboSeq)
@@ -145,6 +145,97 @@ func TestFibonacciStopEarly(t *testing.T) {
 				}
 
 			}
+		})
+	}
+}
+
+func TestFibonacciSeq2ExhaustSeq(t *testing.T) {
+	tests := []struct {
+		wantCount    int
+		wantIndices  []int
+		wantFiboVals []int // Use int for easier maintenance
+	}{
+		{
+			0,
+			nil,
+			nil,
+		},
+		{
+			1,
+			[]int{0},
+			[]int{0},
+		},
+		{
+			4,
+			[]int{0, 1, 2, 3},
+			[]int{0, 1, 1, 2},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(fmt.Sprintf("Fibonacci %d items", tt.wantCount), func(t *testing.T) {
+			if tt.wantCount == 0 {
+				for range fibonacci.FibonacciSeq2(tt.wantCount) {
+					t.Errorf("Iterator should be empty")
+				}
+			} else {
+				testIndex := 0
+				for fiboIndex, fiboVal := range fibonacci.FibonacciSeq2(tt.wantCount) {
+					if tt.wantIndices[testIndex] != fiboIndex {
+						t.Errorf("Index %d = %d, want %s", testIndex, fiboIndex, fiboVal)
+					}
+					wantFiboVal := big.NewInt(int64(tt.wantFiboVals[testIndex]))
+					if wantFiboVal.Cmp(fiboVal) != 0 {
+						t.Errorf("Index %d = %v, want %v", testIndex, wantFiboVal, fiboVal)
+					}
+					testIndex++
+				}
+			}
+		})
+	}
+}
+
+// TestFibonacciStopEarly tests compatibility with range loops and iterator adapters,
+// by calling stop early, before the sequence is exhausted.
+func TestFibonacciSeq2StopEarly(t *testing.T) {
+	tests := []struct {
+		wantCount      int
+		stopAfterCount int
+	}{
+		{
+			0,
+			0,
+		},
+		{
+			1,
+			0,
+		},
+		{
+			1,
+			1,
+		},
+		{
+			2,
+			1,
+		},
+		{
+			10,
+			0,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(fmt.Sprintf("Want %d items, break range iteration after %d items", tt.wantCount, tt.stopAfterCount), func(t *testing.T) {
+			if tt.wantCount < tt.stopAfterCount {
+				t.Errorf("wantCount (%d) must be equal to, or greater than, stopAfterCount (%d)", tt.wantCount, tt.stopAfterCount)
+			}
+
+			loopCount := 0
+			for range fibonacci.FibonacciSeq2(tt.wantCount) {
+				if loopCount == tt.wantCount {
+					break
+				}
+				loopCount++
+			}
+			// Should not panic, iterator should stop cleanly.
 		})
 	}
 }

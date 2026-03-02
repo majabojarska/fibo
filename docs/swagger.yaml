@@ -22,22 +22,8 @@ paths:
         name: count
         type: integer
       produces:
-      - application/json
-      responses:
-        "200":
-          description: Fibonacci sequence items
-          schema:
-            items:
-              type: string
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            type: object
+      - text/event-stream
+      responses: {}
       summary: Get Fibonacci sequence
       tags:
       - fibonacci

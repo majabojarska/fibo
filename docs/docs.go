@@ -27,7 +27,7 @@ const docTemplate = `{
             "get": {
                 "description": "Generates a finite length Fibonacci sequence",
                 "produces": [
-                    "application/json"
+                    "text/event-stream"
                 ],
                 "tags": [
                     "fibonacci"
@@ -42,29 +42,7 @@ const docTemplate = `{
                         "in": "path"
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "Fibonacci sequence items",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object"
-                        }
-                    }
-                }
+                "responses": {}
             }
         },
         "/livez": {
