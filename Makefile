@@ -37,3 +37,7 @@ clean:
 docs:
 	swag fmt
 	swag init --dir internal/routes/ --parseInternal --generalInfo router.go
+
+.PHONY: test
+test:
+	FIBO_METRICS_ENABLED=false FIBO_DOCS_ENABLED=false go test -v ./...
