@@ -9,7 +9,21 @@
 [![Docker Image Size](https://img.shields.io/docker/image-size/majabojarska/fibo)](https://hub.docker.com/r/majabojarska/fibo/tags)
 [![Docker Pulls](https://img.shields.io/docker/pulls/majabojarska/fibo)](https://hub.docker.com/r/majabojarska/fibo/tags)
 
-## Quick Start
+## About
+
+Fibo is a showcase project, implementing a streaming REST API, based on [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events).
+
+## Live demo (hosted)
+
+This service is currently hosted at [fibo.cloud.majabojarska.dev](https://fibo.cloud.majabojarska.dev/).
+
+To query (stream) a Fibonacci sequence:
+
+```sh
+curl --silent --verbose --no-buffer --header "Accept: text/event-stream" https://fibo.cloud.majabojarska.dev/api/v1/fibonacci/100/stream
+```
+
+## Quick Start (local)
 
 ```sh
 docker compose up
@@ -98,8 +112,8 @@ See the [Zap documentation](https://pkg.go.dev/go.uber.org/zap#AtomicLevel.Unmar
 
 ### Environment variables
 
-| Name                   | Description                                                                                                                                                                                 | Type                                                       | Default                             |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------- |
+| Name                     | Description                                                                                                                                                                                 | Type                                                       | Default                             |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------- |
 | `FIBO_API_ADDR`          | REST API bind address                                                                                                                                                                       | string                                                     | `":8080"`                           |
 | `FIBO_API_ROOT_URL`      | URL through which the API will be externally available                                                                                                                                      | string                                                     | `"http://localhost:8080"`           |
 | `FIBO_API_ALLOW_ORIGINS` | Populates the [`Access-Control-Allow-Origin`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin) header. Comma-separated for multiple values. | []string                                                   | `"http://localhost,http://a.b.c.d"` |
