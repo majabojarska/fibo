@@ -1,4 +1,4 @@
-# fibo
+# Fibo
 
 [![Lint](https://github.com/majabojarska/fibo/actions/workflows/lint.yml/badge.svg)](https://github.com/majabojarska/fibo/actions/workflows/lint.yml)
 [![Test](https://github.com/majabojarska/fibo/actions/workflows/test.yaml/badge.svg)](https://github.com/majabojarska/fibo/actions/workflows/test.yaml)
@@ -9,7 +9,21 @@
 [![Docker Image Size](https://img.shields.io/docker/image-size/majabojarska/fibo)](https://hub.docker.com/r/majabojarska/fibo/tags)
 [![Docker Pulls](https://img.shields.io/docker/pulls/majabojarska/fibo)](https://hub.docker.com/r/majabojarska/fibo/tags)
 
-## Quick Start
+## About
+
+_Fibo_ is a showcase project, implementing a streaming REST API, based on [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events).
+
+## Live demo (hosted)
+
+This service is currently hosted at [fibo.cloud.majabojarska.dev](https://fibo.cloud.majabojarska.dev/) (Swagger docs).
+
+To query (stream) a Fibonacci sequence:
+
+```sh
+curl --silent --verbose --no-buffer --header "Accept: text/event-stream" https://fibo.cloud.majabojarska.dev/api/v1/fibonacci/100/stream
+```
+
+## Quick Start (local)
 
 ```sh
 docker compose up
@@ -34,23 +48,23 @@ Swagger API docs can be accessed at http://localhost:8080/swagger/index.html
 Prometheus-style metrics are exposed at `/metrics`. This includes Go and Gin (API) metrics.
 
 ```plain
-$ curl -s localhost:9091/metrics
+curl localhost:9091/metrics
 # HELP gin_request_duration_seconds The HTTP request latencies in seconds.
 # TYPE gin_request_duration_seconds histogram
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.005"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.01"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.025"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.05"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.1"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.25"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="0.5"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="1"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="2.5"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="5"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="10"} 169
-gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/:count",le="+Inf"} 169
-gin_request_duration_seconds_sum{code="200",method="GET",url="/api/v1/fibonacci/:count"} 0.013545205999999997
-gin_request_duration_seconds_count{code="200",method="GET",url="/api/v1/fibonacci/:count"} 169
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="0.005"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="0.01"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="0.025"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="0.05"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="0.1"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="0.25"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="0.5"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="1"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="2.5"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="5"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="10"} 5
+gin_request_duration_seconds_bucket{code="200",method="GET",url="/api/v1/fibonacci/100/stream",le="+Inf"} 5
+gin_request_duration_seconds_sum{code="200",method="GET",url="/api/v1/fibonacci/100/stream"} 0.004046882
+gin_request_duration_seconds_count{code="200",method="GET",url="/api/v1/fibonacci/100/stream"} 5
 ```
 
 The Prometheus UI is available at `localhost:9090`.
@@ -98,8 +112,8 @@ See the [Zap documentation](https://pkg.go.dev/go.uber.org/zap#AtomicLevel.Unmar
 
 ### Environment variables
 
-| Name                   | Description                                                                                                                                                                                 | Type                                                       | Default                             |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------- |
+| Name                     | Description                                                                                                                                                                                 | Type                                                       | Default                             |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------- |
 | `FIBO_API_ADDR`          | REST API bind address                                                                                                                                                                       | string                                                     | `":8080"`                           |
 | `FIBO_API_ROOT_URL`      | URL through which the API will be externally available                                                                                                                                      | string                                                     | `"http://localhost:8080"`           |
 | `FIBO_API_ALLOW_ORIGINS` | Populates the [`Access-Control-Allow-Origin`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin) header. Comma-separated for multiple values. | []string                                                   | `"http://localhost,http://a.b.c.d"` |
