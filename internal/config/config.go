@@ -22,8 +22,10 @@ type Config struct {
 }
 
 type ApiConfig struct {
-	Addr       string
-	EventDelay time.Duration `mapstructure:"event_delay"`
+	Addr         string
+	RootURL      string        `mapstructure:"root_url"`
+	AllowOrigins []string      `mapstructure:"allow_origins"`
+	EventDelay   time.Duration `mapstructure:"event_delay"`
 }
 
 type DocsConfig struct {
@@ -47,6 +49,8 @@ type DebugConfig struct {
 
 func setDefaults() {
 	viper.SetDefault("api.addr", ":8080")
+	viper.SetDefault("api.root_url", "http://localhost:8080")
+	viper.SetDefault("api.allow_origins", []string{"http://localhost"})
 	viper.SetDefault("api.event_delay", nil)
 	viper.SetDefault("docs.enabled", true)
 	viper.SetDefault("logging.level", "info")

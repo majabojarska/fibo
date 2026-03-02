@@ -27,7 +27,10 @@ func main() {
 	}
 	defer logger.Sync() // nolint:errcheck
 
-	router := routes.SetupRouter(logger, config)
+	router, err := routes.SetupRouter(logger, config)
+	if err != nil {
+		panic(err)
+	}
 
 	if config.Debug.Enabled {
 		pprof.Register(router)
