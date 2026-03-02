@@ -42,6 +42,7 @@ func GetFibonacci(ctx *gin.Context) {
 	header.Set("Connection", "keep-alive")
 	header.Set("Cache-Control", "no-cache")
 	header.Set("Transfer-Encoding", "chunked")
+	header.Set("X-Accel-Buffering", "no")
 
 	var pathParams GetFibonacciPathParams
 	if err := ctx.ShouldBindUri(&pathParams); err != nil {

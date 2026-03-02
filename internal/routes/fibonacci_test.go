@@ -10,6 +10,16 @@ import (
 	"go.uber.org/zap"
 )
 
+func wantGetFibonacciHeaders() http.Header {
+	return http.Header{
+		"Cache-Control":     []string{"no-cache"},
+		"Connection":        []string{"keep-alive"},
+		"Content-Type":      []string{"text/event-stream"},
+		"Transfer-Encoding": []string{"chunked"},
+		"X-Accel-Buffering": []string{"no"},
+	}
+}
+
 func TestGetFibonacci(t *testing.T) {
 	logger, err := zap.NewDevelopment()
 	if err != nil {
@@ -35,7 +45,7 @@ func TestGetFibonacci(t *testing.T) {
 		// 	url:            "/api/v1/fibonacci/0",
 		// 	wantStatusCode: http.StatusOK,
 		// 	wantContains:   "[]",
-		//  wantHeaders:    http.Header{"Cache-Control": []string{"no-cache"}, "Connection": []string{"keep-alive"}, "Content-Type": []string{"text/event-stream"}, "Transfer-Encoding": []string{"chunked"}},
+		//  wantHeaders:    wantGetFibonacciHeaders(),
 		// },
 		// {
 		// 	name:           "GET fibonacci valid sequence request (1 item)",
@@ -43,7 +53,7 @@ func TestGetFibonacci(t *testing.T) {
 		// 	url:            "/api/v1/fibonacci/1",
 		// 	wantStatusCode: http.StatusOK,
 		// 	wantContains:   "[\"0\"]",
-		//  wantHeaders:    http.Header{"Cache-Control": []string{"no-cache"}, "Connection": []string{"keep-alive"}, "Content-Type": []string{"text/event-stream"}, "Transfer-Encoding": []string{"chunked"}},
+		//  wantHeaders:    wantGetFibonacciHeaders(),
 		// },
 		// {
 		// 	name:           "GET fibonacci valid sequence request (2 items)",
@@ -51,6 +61,7 @@ func TestGetFibonacci(t *testing.T) {
 		// 	url:            "/api/v1/fibonacci/2",
 		// 	wantStatusCode: http.StatusOK,
 		// 	wantContains:   "[\"0\",\"1\"]",
+		//  wantHeaders: wantGetFibonacciHeaders(),
 		//  wantHeaders:    http.Header{"Cache-Control": []string{"no-cache"}, "Connection": []string{"keep-alive"}, "Content-Type": []string{"text/event-stream"}, "Transfer-Encoding": []string{"chunked"}},
 		// },
 		{
@@ -59,7 +70,7 @@ func TestGetFibonacci(t *testing.T) {
 			url:            "/api/v1/fibonacci/-1",
 			wantStatusCode: http.StatusBadRequest,
 			wantContains:   "{}",
-			wantHeaders:    http.Header{"Cache-Control": []string{"no-cache"}, "Connection": []string{"keep-alive"}, "Content-Type": []string{"text/event-stream"}, "Transfer-Encoding": []string{"chunked"}},
+			wantHeaders:    wantGetFibonacciHeaders(),
 		},
 		{
 			name:           "GET fibonacci invalid seq size (-2)",
@@ -67,7 +78,7 @@ func TestGetFibonacci(t *testing.T) {
 			url:            "/api/v1/fibonacci/-2",
 			wantStatusCode: http.StatusBadRequest,
 			wantContains:   "{}",
-			wantHeaders:    http.Header{"Cache-Control": []string{"no-cache"}, "Connection": []string{"keep-alive"}, "Content-Type": []string{"text/event-stream"}, "Transfer-Encoding": []string{"chunked"}},
+			wantHeaders:    wantGetFibonacciHeaders(),
 		},
 		{
 			name:           "GET fibonacci invalid seq size (non-numeric)",
@@ -75,7 +86,7 @@ func TestGetFibonacci(t *testing.T) {
 			url:            "/api/v1/fibonacci/BOOM",
 			wantStatusCode: http.StatusBadRequest,
 			wantContains:   "{}",
-			wantHeaders:    http.Header{"Cache-Control": []string{"no-cache"}, "Connection": []string{"keep-alive"}, "Content-Type": []string{"text/event-stream"}, "Transfer-Encoding": []string{"chunked"}},
+			wantHeaders:    wantGetFibonacciHeaders(),
 		},
 		{
 			name:           "GET fibonacci without path param",
