@@ -75,8 +75,9 @@ Example:
 ```yaml
 api:
   addr: ":8080"
-  root_url: "http://localhost:8080"
-  event_delay: 0s
+  allow_origins:
+    - "http://localhost"
+  event_delay: 0ms
 
 docs:
   enabled: true
@@ -90,7 +91,7 @@ metrics:
   path: "/metrics"
 
 debug:
-  enabled: true
+  enabled: false
 ```
 
 See the [Zap documentation](https://pkg.go.dev/go.uber.org/zap#AtomicLevel.UnmarshalText) for a reference of Zap log level string identifiers.
