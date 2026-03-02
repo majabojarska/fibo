@@ -50,7 +50,7 @@ air
 
 This API supports [pprof](https://github.com/google/pprof).
 
-Restart with `FIBO_DEBUG_ENABLED=true` to enable the pprof Gin middleware. The pprof server will bind the the API's address.
+Restart with `FIBO_DEBUG_ENABLED=true` to enable the pprof Gin middleware. The pprof server will bind the API's address.
 
 To profile, call:
 
