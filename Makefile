@@ -27,7 +27,7 @@ build-windows-amd64: docs build-dir
 
 .PHONY: build-docker-image
 build-docker-image: docs
-	docker buildx build --platform linux/amd64,linux/arm64 -f ./docker/Dockerfile -t majabojarska/fibo .
+	docker buildx build --platform linux/amd64,linux/arm64 -f ./Dockerfile -t majabojarska/fibo .
 
 .PHONY: clean
 clean:
