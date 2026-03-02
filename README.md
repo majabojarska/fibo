@@ -121,6 +121,7 @@ Example:
 ```yaml
 api:
   addr: ":8080"
+  root_url: "http://localhost:8080"
   allow_origins:
     - "http://localhost"
   event_delay: 0ms
