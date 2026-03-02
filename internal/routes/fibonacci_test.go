@@ -79,7 +79,7 @@ func TestGetFibonacci(t *testing.T) {
 			method:         http.MethodGet,
 			url:            "/api/v1/fibonacci/5/stream",
 			wantStatusCode: http.StatusUnsupportedMediaType,
-			wantBody:       "User agent must accept content type 'text/event-stream'\n",
+			wantBody:       "User agent must accept content type 'text/event-stream'.\n",
 			wantHeaders:    http.Header{"Content-Type": []string{"text/plain; charset=utf-8"}},
 		},
 		{
@@ -87,7 +87,7 @@ func TestGetFibonacci(t *testing.T) {
 			method:         http.MethodGet,
 			url:            "/api/v1/fibonacci/-1/stream",
 			wantStatusCode: http.StatusBadRequest,
-			wantBody:       "Path parameter 'count' must be a non-negative integer\n",
+			wantBody:       "Path parameter 'count' must be a non-negative integer.\n",
 			wantHeaders:    http.Header{"Content-Type": []string{"text/plain; charset=utf-8"}},
 		},
 		{
@@ -95,7 +95,7 @@ func TestGetFibonacci(t *testing.T) {
 			method:         http.MethodGet,
 			url:            "/api/v1/fibonacci/-2/stream",
 			wantStatusCode: http.StatusBadRequest,
-			wantBody:       "Path parameter 'count' must be a non-negative integer\n",
+			wantBody:       "Path parameter 'count' must be a non-negative integer.\n",
 			wantHeaders:    http.Header{"Content-Type": []string{"text/plain; charset=utf-8"}},
 		},
 		{
@@ -103,16 +103,16 @@ func TestGetFibonacci(t *testing.T) {
 			method:         http.MethodGet,
 			url:            "/api/v1/fibonacci/BOOM/stream",
 			wantStatusCode: http.StatusBadRequest,
-			wantBody:       "Path parameter 'count' must be a non-negative integer\n",
+			wantBody:       "Path parameter 'count' must be a non-negative integer.\n",
 			wantHeaders:    http.Header{"Content-Type": []string{"text/plain; charset=utf-8"}},
 		},
 		{
 			name:           "POST fibonacci with valid path param",
 			method:         http.MethodPost,
 			url:            "/api/v1/fibonacci/5/stream",
-			wantStatusCode: http.StatusNotFound,
-			wantBody:       "404 page not found",
-			wantHeaders:    http.Header{"Content-Type": []string{"text/plain"}},
+			wantStatusCode: http.StatusMethodNotAllowed,
+			wantBody:       "Method not allowed.\n",
+			wantHeaders:    http.Header{"Allow": []string{"GET"}, "Content-Type": []string{"text/plain; charset=utf-8"}},
 		},
 	}
 

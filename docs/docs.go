@@ -49,6 +49,12 @@ const docTemplate = `{
                             "type": "string"
                         }
                     },
+                    "405": {
+                        "description": "Method not allowed",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     "415": {
                         "description": "Unsupported media type",
                         "schema": {

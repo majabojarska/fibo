@@ -38,24 +38,32 @@ type FiboData struct {
 //	@Param			count	path	GetFibonacciPathParams	true	"Desired sequence size"
 //	@Produce		event-stream
 //	@Failure		400	{string}	string	"Bad request"
+//	@Failure		405	{string}	string	"Method not allowed"
 //	@Failure		415	{string}	string	"Unsupported media type"
 //	@Failure		500	{string}	string	"Internal server error"
 //	@Router			/api/v1/fibonacci/{count}/stream [get]
 func GetFibonacci(ctx *gin.Context) {
+	writer := ctx.Writer
+	header := writer.Header()
+
 	var pathParams GetFibonacciPathParams
 	if err := ctx.ShouldBindUri(&pathParams); err != nil {
 		// Will write status code header
-		ctx.String(http.StatusBadRequest, "Path parameter 'count' must be a non-negative integer\n")
+		ctx.String(http.StatusBadRequest, "Path parameter 'count' must be a non-negative integer.\n")
+		return
+	}
+
+	if ctx.Request.Method != http.MethodGet {
+		header.Set("Allow", "GET")
+		ctx.String(http.StatusMethodNotAllowed, "Method not allowed.\n")
 		return
 	}
 
 	if !slices.Contains(ctx.Request.Header["Accept"], "text/event-stream") {
-		ctx.String(http.StatusUnsupportedMediaType, "User agent must accept content type 'text/event-stream'\n")
+		ctx.String(http.StatusUnsupportedMediaType, "User agent must accept content type 'text/event-stream'.\n")
 		return
 	}
 
-	writer := ctx.Writer
-	header := writer.Header()
 	header.Set("Content-Type", "text/event-stream")
 	header.Set("Connection", "keep-alive")
 	header.Set("Cache-Control", "no-cache")

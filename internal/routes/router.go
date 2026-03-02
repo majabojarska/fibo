@@ -44,7 +44,7 @@ func setupRoutes(router *gin.Engine, logger *zap.Logger, config *fiboConfig.Conf
 	{
 		groupFibonacci := groupV1.Group("/fibonacci")
 		{
-			groupFibonacci.GET(":count/stream", GetFibonacci)
+			groupFibonacci.Any(":count/stream", GetFibonacci)
 		}
 	}
 
