@@ -45,3 +45,17 @@ Start the API in live-reload mode:
 ```sh
 air
 ```
+
+## Profiling
+
+This API supports [pprof](https://github.com/google/pprof).
+
+Restart with `FIBO_DEBUG_ENABLED=true` to enable the pprof Gin middleware. The pprof server will bind the the API's address.
+
+To profile, call:
+
+```sh
+go tool pprof http://localhost:8080/debug/pprof/profile\?seconds\=30
+```
+
+![Pprof profile sample graph](static/img/pprof.webp)
