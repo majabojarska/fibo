@@ -15,12 +15,12 @@ _Fibo_ is a showcase project, implementing a streaming REST API, based on [serve
 
 ## Live demo (hosted)
 
-This service is currently hosted at [fibo.cloud.majabojarska.dev](https://fibo.cloud.majabojarska.dev/) (Swagger docs).
+This service is currently hosted at [fibo.cloud.majabojarska.dev](https://fibo.cloud.majabojarska.dev/) (Swagger docs). Please do note that Swagger will buffer the entire stream before displaying it in the UI.
 
-To query (stream) a Fibonacci sequence:
+To query (stream) a Fibonacci sequence with `curl`:
 
 ```sh
-curl --silent --verbose --no-buffer --header "Accept: text/event-stream" https://fibo.cloud.majabojarska.dev/api/v1/fibonacci/100/stream
+curl --silent --verbose --no-buffer --header "Accept: text/event-stream" https://fibo.cloud.majabojarska.dev/api/v1/fibonacci/1000/stream
 ```
 
 ## Quick Start (local)
