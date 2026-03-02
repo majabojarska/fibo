@@ -1,5 +1,6 @@
 api:
   addr: ":8080"
+  event_delay: 0ms
 
 docs:
   enabled: true
