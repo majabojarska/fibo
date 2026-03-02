@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"net/http"
 	"slices"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/majabojarska/fibo/internal/fibonacci"
+	"github.com/spf13/viper"
 )
 
 const fiboEvent = "fibonacci"
@@ -66,6 +68,8 @@ func GetFibonacci(ctx *gin.Context) {
 }
 
 func writeFibo(writer gin.ResponseWriter, wantCount int) error {
+	eventDelay := viper.GetDuration("api.event_delay")
+
 	for iterIdx, fiboVal := range fibonacci.FibonacciSeq2(wantCount) {
 		event := FiboEvent{
 			Id:    iterIdx,
@@ -88,6 +92,9 @@ func writeFibo(writer gin.ResponseWriter, wantCount int) error {
 
 		if flusher := writer.(http.Flusher); flusher != nil {
 			flusher.Flush()
+		}
+		if eventDelay > 0 {
+			time.Sleep(eventDelay)
 		}
 	}
 
