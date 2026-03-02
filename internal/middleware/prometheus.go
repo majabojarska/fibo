@@ -14,8 +14,8 @@ func promUrlRelabel(ctx *gin.Context) string {
 
 	// Hacky, but does the job for now.
 	// The goal is to reduce metrics cardinality.
-	re := regexp.MustCompile(`^/api/v1/fibonacci/(\d+)$`)
-	url = re.ReplaceAllString(url, "/api/v1/fibonacci/:count")
+	re := regexp.MustCompile(`^/api/v1/fibonacci/(\d+)/stream$`)
+	url = re.ReplaceAllString(url, "/api/v1/fibonacci/:count/stream")
 
 	return url
 }
