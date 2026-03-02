@@ -129,6 +129,7 @@ See the [Zap documentation](https://pkg.go.dev/go.uber.org/zap#AtomicLevel.Unmar
 | FIBO_METRICS_ENABLED | Enables the Prometheus metrics server        | bool   | `true`       |
 | FIBO_METRICS_ADDR    | Metrics server bind address                  | string | `":9091"`    |
 | FIBO_METRICS_PATH    | Metrics server base URL                      | string | `"/metrics"` |
+| FIBO_LOGGING_LEVEL   | Log level                                    | string | "info"       |
 | FIBO_DEBUG           | Enables debug mode (Gin, Zap), starts pprof. | bool   | `false`      |
 
 ## Development

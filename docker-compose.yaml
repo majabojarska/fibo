@@ -13,6 +13,7 @@ services:
     #   FIBO_METRICS_ENABLED: true
     #   FIBO_METRICS_ADDR: ":9091"
     #   FIBO_METRICS_PATH: "/metrics"
+    #   FIBO_LOGGING_LEVEL: "info"
     #   FIBO_DEBUG: false
     restart: unless-stopped
     deploy:

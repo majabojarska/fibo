@@ -8,9 +8,9 @@ logging:
   level: "info"
 
 metrics:
-  enabled: true
+  enabled: false
   addr: ":9091"
   path: "/metrics"
 
 debug:
-  enabled: true
+  enabled: false
