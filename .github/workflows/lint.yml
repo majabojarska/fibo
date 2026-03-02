@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   swag:
-    name: Swag fmt
+    name: Swag
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
