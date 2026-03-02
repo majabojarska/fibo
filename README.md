@@ -15,12 +15,12 @@ _Fibo_ is a showcase project, implementing a streaming REST API, based on [serve
 
 ## Live demo (hosted)
 
-This service is currently hosted at [fibo.cloud.majabojarska.dev](https://fibo.cloud.majabojarska.dev/) (Swagger docs).
+This service is currently hosted at [fibo.cloud.majabojarska.dev](https://fibo.cloud.majabojarska.dev/) (Swagger docs). Please do note that Swagger will buffer the entire stream before displaying it in the UI.
 
-To query (stream) a Fibonacci sequence:
+To query (stream) a Fibonacci sequence with `curl`:
 
 ```sh
-curl --silent --verbose --no-buffer --header "Accept: text/event-stream" https://fibo.cloud.majabojarska.dev/api/v1/fibonacci/100/stream
+curl --silent --verbose --no-buffer --header "Accept: text/event-stream" https://fibo.cloud.majabojarska.dev/api/v1/fibonacci/1000/stream
 ```
 
 ## Quick Start (local)
@@ -70,6 +70,38 @@ gin_request_duration_seconds_count{code="200",method="GET",url="/api/v1/fibonacc
 The Prometheus UI is available at `localhost:9090`.
 
 ![Prometheus UI preview](./static/img/prometheus.webp)
+
+## Design & data format
+
+I've made several intentional design choices for this API:
+
+- Fibonacci sequence items get quite large, quickly. For reference, after the 93rd item, the value overflows an int64. That's why I've implemented sequence generation using [`big.Int`](https://pkg.go.dev/math/big#Int), which allows for arbitrarily large integers, at the expense of longer computation.
+- Fibonacci sequence values are sent back as strings, not as numbers. That's because no JSON number representation can store (fit) sequence items larger than int64. That is, without corrupting the data. On the API consumer's side, the strings can be decoded back into an equivalent "big int" structure, retaining integrity end-to-end.
+- This is a streaming API (except the healtcheck routes), based on [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events). Sending the whole sequence in a single document would require the client to buffer the entire response body, before it can process the JSON document, causing it to quickly exhaust its memory. Beyond some sequence size, it becomes impossible for the client to even receive the entire message. That is, unless the client uses custom parsing and/or flushes to disk. The current implementation, simply put:
+  - Each sequence item is sent as a separate event.
+  - Each event is a complete JSON document, allowing for immediate processing.
+  - Events are delimited with `\n\n`.
+
+The event structure is as follows:
+
+```json
+{
+  "id": 0,
+  "event": "fibonacci",
+  "data": {
+    "ordinal": 1,
+    "value": "0"
+  }
+}
+```
+
+- `id` tracks the number of events sent to the client (0-indexed integer)
+- `event` denotes the event type.
+- `data` is the message, i.e. what we actually want to transfer.
+  - `ordinal` tracks the fibonacci sequence's ordinal (1-indexed integer).
+  - `value` is the actual value, the big.Int serialized to a string.
+
+You may have noticed that `data.ordinal` is always greater by 1 from `id`, and you'd be right. Perhaps I do waste some data in that regard, but it does help decouple the SSE metadata, from the actual data. If efficiency was a concern, [gRPC](https://grpc.io/) would be a wiser choice for better performance and efficency.
 
 ## Configuration
 
