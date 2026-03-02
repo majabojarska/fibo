@@ -23,7 +23,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/fibonacci/{count}": {
+        "/api/v1/fibonacci/{count}/stream": {
             "get": {
                 "description": "Generates a finite length Fibonacci sequence",
                 "produces": [
@@ -42,7 +42,26 @@ const docTemplate = `{
                         "in": "path"
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "415": {
+                        "description": "Unsupported media type",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
             }
         },
         "/livez": {

@@ -12,7 +12,7 @@ info:
   title: Fibo
   version: "1.0"
 paths:
-  /api/v1/fibonacci/{count}:
+  /api/v1/fibonacci/{count}/stream:
     get:
       description: Generates a finite length Fibonacci sequence
       operationId: get-fibonacci
@@ -23,7 +23,19 @@ paths:
         type: integer
       produces:
       - text/event-stream
-      responses: {}
+      responses:
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "415":
+          description: Unsupported media type
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
       summary: Get Fibonacci sequence
       tags:
       - fibonacci
