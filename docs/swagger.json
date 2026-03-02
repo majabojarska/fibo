@@ -17,11 +17,11 @@
     "host": "localhost:8080",
     "basePath": "/",
     "paths": {
-        "/api/v1/fibonacci/{count}": {
+        "/api/v1/fibonacci/{count}/stream": {
             "get": {
                 "description": "Generates a finite length Fibonacci sequence",
                 "produces": [
-                    "application/json"
+                    "text/event-stream"
                 ],
                 "tags": [
                     "fibonacci"
@@ -37,25 +37,22 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Fibonacci sequence items",
+                    "400": {
+                        "description": "Bad request",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
+                            "type": "string"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "415": {
+                        "description": "Unsupported media type",
                         "schema": {
-                            "type": "object"
+                            "type": "string"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {
-                            "type": "object"
+                            "type": "string"
                         }
                     }
                 }

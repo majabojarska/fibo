@@ -2,6 +2,7 @@ package config
 
 import (
 	"strings"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -21,7 +22,8 @@ type Config struct {
 }
 
 type ApiConfig struct {
-	Addr string
+	Addr       string
+	EventDelay time.Duration `mapstructure:"event_delay"`
 }
 
 type DocsConfig struct {
@@ -43,20 +45,21 @@ type DebugConfig struct {
 	Enabled bool
 }
 
-func setDefaults(v *viper.Viper) {
-	v.SetDefault("api.addr", ":8080")
-	v.SetDefault("docs.enabled", true)
-	v.SetDefault("logging.level", "info")
-	v.SetDefault("metrics.enabled", true)
-	v.SetDefault("metrics.addr", ":9091")
-	v.SetDefault("metrics.path", "/metrics")
-	v.SetDefault("debug.enabled", false)
+func setDefaults() {
+	viper.SetDefault("api.addr", ":8080")
+	viper.SetDefault("api.event_delay", nil)
+	viper.SetDefault("docs.enabled", true)
+	viper.SetDefault("logging.level", "info")
+	viper.SetDefault("metrics.enabled", true)
+	viper.SetDefault("metrics.addr", ":9091")
+	viper.SetDefault("metrics.path", "/metrics")
+	viper.SetDefault("debug.enabled", false)
 }
 
-func parseConfig(v *viper.Viper) (*Config, error) {
+func parseConfig() (*Config, error) {
 	var config Config
 
-	err := v.Unmarshal(&config)
+	err := viper.Unmarshal(&config)
 	if err != nil {
 		return nil, err
 	}
@@ -64,20 +67,18 @@ func parseConfig(v *viper.Viper) (*Config, error) {
 }
 
 func LoadConfig() (*Config, error) {
-	v := viper.New()
+	viper.AddConfigPath(".")
+	viper.SetConfigName(configName) // TODO: Make this path configurable with a flag
+	viper.SetConfigType(configType)
 
-	setDefaults(v)
+	viper.SetEnvPrefix(envPrefix)
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+	viper.AutomaticEnv()
 
-	v.AddConfigPath(".")
-	v.SetConfigName(configName) // TODO: Make this path configurable with a flag
-	v.SetConfigType(configType)
-
-	v.SetEnvPrefix(envPrefix)
-	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-	v.AutomaticEnv()
+	setDefaults()
 
 	// Load config file
-	if err := v.ReadInConfig(); err != nil {
+	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
 			// Does not exist, but we've got defaults for everything so it's fine
 			return nil, err
@@ -85,7 +86,7 @@ func LoadConfig() (*Config, error) {
 	}
 
 	// Parse
-	config, err := parseConfig(v)
+	config, err := parseConfig()
 	if err != nil {
 		return nil, err
 	}

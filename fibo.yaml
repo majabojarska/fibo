@@ -1,5 +1,6 @@
 api:
   addr: ":8080"
+  event_delay: 0ms
 
 docs:
   enabled: true
@@ -8,9 +9,9 @@ logging:
   level: "info"
 
 metrics:
-  enabled: true
+  enabled: false
   addr: ":9091"
   path: "/metrics"
 
 debug:
-  enabled: true
+  enabled: false

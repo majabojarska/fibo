@@ -1,15 +1,32 @@
 package routes
 
 import (
-	"bytes"
+	"encoding/json"
 	"net/http"
+	"slices"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/majabojarska/fibo/internal/fibonacci"
+	"github.com/spf13/viper"
 )
+
+const fiboEvent = "fibonacci"
 
 type GetFibonacciPathParams struct {
 	Count int `uri:"count" binding:"min=0"`
+}
+
+type FiboEvent struct {
+	Id    int      `json:"id"`
+	Event string   `json:"event,omitempty"`
+	Error string   `json:"error,omitempty"`
+	Data  FiboData `json:"data,omitempty"`
+}
+
+type FiboData struct {
+	Ordinal int    `json:"ordinal"`
+	Value   string `json:"value"`
 }
 
 // GetFibonacci godoc
@@ -19,65 +36,66 @@ type GetFibonacciPathParams struct {
 //	@ID				get-fibonacci
 //	@Tags			fibonacci
 //	@Param			count	path	GetFibonacciPathParams	true	"Desired sequence size"
-//	@Produce		json
-//	@Success		200	{array}		string	"Fibonacci sequence items"
-//	@Failure		400	{object}	object
-//	@Failure		500	{object}	object
-//	@Router			/api/v1/fibonacci/{count} [get]
+//	@Produce		event-stream
+//	@Failure		400	{string}	string	"Bad request"
+//	@Failure		415	{string}	string	"Unsupported media type"
+//	@Failure		500	{string}	string	"Internal server error"
+//	@Router			/api/v1/fibonacci/{count}/stream [get]
 func GetFibonacci(ctx *gin.Context) {
-	writer := ctx.Writer
-	header := writer.Header()
-	header.Set("Content-Type", "application/json")
-	header.Set("Transfer-Encoding", "chunked")
-
 	var pathParams GetFibonacciPathParams
 	if err := ctx.ShouldBindUri(&pathParams); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{})
+		// Will write status code header
+		ctx.String(http.StatusBadRequest, "Path parameter 'count' must be a non-negative integer\n")
 		return
 	}
 
-	writer.WriteHeader(http.StatusOK)
+	if !slices.Contains(ctx.Request.Header["Accept"], "text/event-stream") {
+		ctx.String(http.StatusUnsupportedMediaType, "User agent must accept content type 'text/event-stream'\n")
+		return
+	}
+
+	writer := ctx.Writer
+	header := writer.Header()
+	header.Set("Content-Type", "text/event-stream")
+	header.Set("Connection", "keep-alive")
+	header.Set("Cache-Control", "no-cache")
+	header.Set("Transfer-Encoding", "chunked")
+	header.Set("X-Accel-Buffering", "no")
 
 	if err := writeFibo(writer, pathParams.Count); err != nil {
 		panic(err)
 	}
 }
 
-// writeFibo writes the Fibonacci sequence into the provided writer in a JSON array format.
-// Writes in chunks, flushing after brackets and each element (and delimiter).
 func writeFibo(writer gin.ResponseWriter, wantCount int) error {
-	if _, err := writer.WriteString("["); err != nil {
-		return err
-	}
+	eventDelay := viper.GetDuration("api.event_delay")
 
-	sentCount := 0
-	for fiboVal := range fibonacci.Fibonacci(wantCount) {
-		// Sequence item
+	for iterIdx, fiboVal := range fibonacci.FibonacciSeq2(wantCount) {
+		event := FiboEvent{
+			Id:    iterIdx,
+			Event: fiboEvent,
+			Data: FiboData{
+				Ordinal: iterIdx + 1, // Start ordinals from 1 in the responses
+				Value:   fiboVal.String(),
+			},
+		}
 
-		var buf bytes.Buffer
-
-		buf.WriteRune('"')
-		buf.WriteString(fiboVal.String())
-		buf.WriteRune('"')
-
-		if _, err := writer.WriteString(buf.String()); err != nil {
+		jsonLine, err := json.Marshal(event)
+		if err != nil {
 			return err
 		}
 
-		sentCount++
-
-		// Omit delimiter after the last seq item
-		if sentCount < wantCount {
-			if _, err := writer.WriteString(","); err != nil {
-				return err
-			}
+		jsonLine = append(jsonLine, []byte("\n\n")...) // Event terminator
+		if _, err := writer.Write(jsonLine); err != nil {
+			return err
 		}
 
-		writer.(http.Flusher).Flush()
-	}
-
-	if _, err := writer.WriteString("]"); err != nil {
-		return err
+		if flusher := writer.(http.Flusher); flusher != nil {
+			flusher.Flush()
+		}
+		if eventDelay > 0 {
+			time.Sleep(eventDelay)
+		}
 	}
 
 	return nil

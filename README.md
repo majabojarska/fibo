@@ -17,13 +17,15 @@ docker compose up
 
 The web server will bind to `http://localhost:8080/`.
 
-To query a Fibonacci sequence:
+To query (stream) a Fibonacci sequence:
 
 ```sh
-$ curl -s --no-buffer localhost:8080/api/v1/fibonacci/10
-# Outputs:
-# [0,1,1,2,3,5,8,13,21,34]
+curl --silent --verbose --no-buffer --header "Accept: text/event-stream" localhost:8080/api/v1/fibonacci/10/stream
 ```
+
+Here's a Fibonacci stream example with `api.event_delay: 200ms`, to better demonstrate the principle of operation.
+
+[![asciicast](https://asciinema.org/a/wzkuKRlfRgfGKEvW.svg)](https://asciinema.org/a/wzkuKRlfRgfGKEvW)
 
 Swagger API docs can be accessed at http://localhost:8080/swagger/index.html
 
@@ -73,6 +75,7 @@ Example:
 ```yaml
 api:
   addr: ":8080"
+  event_delay: 0.0
 
 docs:
   enabled: true
@@ -93,14 +96,16 @@ See the [Zap documentation](https://pkg.go.dev/go.uber.org/zap#AtomicLevel.Unmar
 
 ### Environment variables
 
-| Name                 | Description                                  | Type   | Default      |
-| -------------------- | -------------------------------------------- | ------ | ------------ |
-| FIBO_API_ADDR        | REST API bind address                        | string | `":8080"`    |
-| FIBO_DOCS_ENABLED    | Enables the REST API docs server (Swagger)   | bool   | `true`       |
-| FIBO_METRICS_ENABLED | Enables the Prometheus metrics server        | bool   | `true`       |
-| FIBO_METRICS_ADDR    | Metrics server bind address                  | string | `":9091"`    |
-| FIBO_METRICS_PATH    | Metrics server base URL                      | string | `"/metrics"` |
-| FIBO_DEBUG           | Enables debug mode (Gin, Zap), starts pprof. | bool   | `false`      |
+| Name                 | Description                                   | Type   | Default      |
+| -------------------- | --------------------------------------------- | ------ | ------------ |
+| FIBO_API_ADDR        | REST API bind address                         | string | `":8080"`    |
+| FIBO_API_EVENT_DELAY | Time to wait between subsequent stream events | float  | 0.0          |
+| FIBO_DOCS_ENABLED    | Enables the REST API docs server (Swagger)    | bool   | `true`       |
+| FIBO_METRICS_ENABLED | Enables the Prometheus metrics server         | bool   | `true`       |
+| FIBO_METRICS_ADDR    | Metrics server bind address                   | string | `":9091"`    |
+| FIBO_METRICS_PATH    | Metrics server base URL                       | string | `"/metrics"` |
+| FIBO_LOGGING_LEVEL   | Log level                                     | string | "info"       |
+| FIBO_DEBUG           | Enables debug mode (Gin, Zap), starts pprof.  | bool   | `false`      |
 
 ## Development
 
