@@ -20,9 +20,34 @@ The web server will bind to `http://localhost:8080/`.
 To query a Fibonacci sequence:
 
 ```sh
-$ curl -s --no-buffer localhost:8080/api/v1/fibonacci/10
-# Outputs:
-# [0,1,1,2,3,5,8,13,21,34]
+$ curl -v --no-buffer localhost:8080/api/v1/fibonacci/3
+* Host localhost:8080 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:8080...
+* Established connection to localhost (::1 port 8080) from ::1 port 43430
+* using HTTP/1.x
+> GET /api/v1/fibonacci/3 HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.18.0
+> Accept: */*
+>
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Cache-Control: no-cache
+< Connection: keep-alive
+< Content-Type: text/event-stream
+< X-Accel-Buffering: no
+< Date: Mon, 02 Mar 2026 00:21:30 GMT
+< Transfer-Encoding: chunked
+<
+{"id":0,"event":"fibonacci","data":{"ordinal":1,"value":"0"}}
+
+{"id":1,"event":"fibonacci","data":{"ordinal":2,"value":"1"}}
+
+{"id":2,"event":"fibonacci","data":{"ordinal":3,"value":"1"}}
+
+* Connection #0 to host localhost:8080 left intact
 ```
 
 Swagger API docs can be accessed at http://localhost:8080/swagger/index.html
