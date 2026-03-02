@@ -101,7 +101,7 @@ The event structure is as follows:
   - `ordinal` tracks the fibonacci sequence's ordinal (1-indexed integer).
   - `value` is the actual value, the big.Int serialized to a string.
 
-You may have noticed that `data.ordinal` is always greater by 1 than `id`, and you'd be right. Perhaps I do waste some data in that regard, but it does help decouple the SSE metadata, from the actual data. If efficiency was a concern, [gRPC](https://grpc.io/) would be a better choice for better performance and efficency.
+You may have noticed that `data.ordinal` is always greater by 1 from `id`, and you'd be right. Perhaps I do waste some data in that regard, but it does help decouple the SSE metadata, from the actual data. If efficiency was a concern, [gRPC](https://grpc.io/) would be a better choice for better performance and efficency.
 
 ## Configuration
 
