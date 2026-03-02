@@ -35,7 +35,7 @@ clean:
 
 .PHONY: docs
 docs:
-	swag fmt
+	swag fmt # Formats only Swag annotations and files across the codebase
 	swag init --dir internal/routes/ --parseInternal --generalInfo router.go
 
 .PHONY: test
