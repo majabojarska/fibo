@@ -7,23 +7,6 @@ on:
   pull_request:
 
 jobs:
-  docs:
-    name: Swag docs
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: Setup Go
-        uses: actions/setup-go@v6
-        with:
-          go-version-file: "go.mod"
-
-      - name: Install swag
-        run: go install github.com/swaggo/swag/cmd/swag@latest
-
-      - name: Swag init
-        run: make docs
-
   docker:
     name: Docker build and compose up
     runs-on: ubuntu-latest
@@ -34,6 +17,14 @@ jobs:
 
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@v1
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: "go.mod"
+
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
 
       - name: Build Docker image
         run: make build-docker-image
