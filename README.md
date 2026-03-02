@@ -1,4 +1,4 @@
-# fibo
+# Fibo
 
 [![Lint](https://github.com/majabojarska/fibo/actions/workflows/lint.yml/badge.svg)](https://github.com/majabojarska/fibo/actions/workflows/lint.yml)
 [![Test](https://github.com/majabojarska/fibo/actions/workflows/test.yaml/badge.svg)](https://github.com/majabojarska/fibo/actions/workflows/test.yaml)
@@ -11,7 +11,7 @@
 
 ## About
 
-Fibo is a showcase project, implementing a streaming REST API, based on [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events).
+*Fibo* is a showcase project, implementing a streaming REST API, based on [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events).
 
 ## Live demo (hosted)
 
