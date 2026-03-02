@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   swag:
-    name: Swag fmt
+    name: Swag
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -57,4 +57,17 @@ jobs:
             exit 1
           else
             echo "Swag fmt made no changes"
+          fi
+
+      - name: Make docs
+        run: make docs
+
+      - name: Assert 'swag fmt' made no diff
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            git diff
+            echo "Make docs generated a diff. Run 'make docs' locally to correct swag annotation formatting."
+            exit 1
+          else
+            echo "make docs made no changes"
           fi
